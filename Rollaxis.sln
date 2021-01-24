@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rollaxis", "Rollaxis\Rollaxis.csproj", "{55C893A2-7CDE-402E-921B-00B2059CA1A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rollaxis", "Rollaxis\Rollaxis.csproj", "{FFF50AA7-5933-40E4-B95D-945441238819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55C893A2-7CDE-402E-921B-00B2059CA1A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55C893A2-7CDE-402E-921B-00B2059CA1A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55C893A2-7CDE-402E-921B-00B2059CA1A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55C893A2-7CDE-402E-921B-00B2059CA1A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFF50AA7-5933-40E4-B95D-945441238819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFF50AA7-5933-40E4-B95D-945441238819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFF50AA7-5933-40E4-B95D-945441238819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFF50AA7-5933-40E4-B95D-945441238819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0BE8A258-7DA3-40BE-A2F7-F6D9CB92FCBC}
+		SolutionGuid = {4817A9D2-CBDF-42BB-8F82-B585F2AEA39E}
 	EndGlobalSection
 EndGlobal
