@@ -22,7 +22,7 @@ namespace Rollaxis.Controllers {
        }
 
        [HttpGet] 
-       [Route("GetDeaprtmentById/{DepartmentID}")]
+       [Route("GetDepartmentsById/{DepartmentID}")]
        public IHttpActionResult GetDepartmentById(string DepartmentID) {
             Department ObjDep = new Department(); 
             int ID = Convert.ToInt32(DepartmentID); 
@@ -68,7 +68,7 @@ namespace Rollaxis.Controllers {
         }
 
         [HttpDelete] 
-        [Route("DleteDepartments")] 
+        [Route("DeleteDepartments")] 
         public IHttpActionResult DeleteDepartments(int id) {
             Department d = Obj.Departments.Find(id); 
             if(d == null) {
