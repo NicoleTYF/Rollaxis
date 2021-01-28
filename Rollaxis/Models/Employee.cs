@@ -14,24 +14,30 @@ namespace Rollaxis.Models
     
     public partial class Employee
     {
-        public int EmployeeID { get; set; }
+        public string EmployeeID { get; set; }
+        public string Prefix { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
         public string Gender { get; set; }
         public string ContactNo { get; set; }
         public string Email { get; set; }
-        public int AddressID { get; set; }
-        public int ManagerID { get; set; }
-        public int DepartmentID { get; set; }
+        public string AddressID { get; set; }
+        public string ManagerID { get; set; }
+        public string DepartmentID { get; set; }
         public Nullable<System.DateTime> HireDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
+        public Nullable<int> BirthDate { get; set; }
+        public string BirthMonth { get; set; }
         public string PasswordSalt { get; set; }
-        public Nullable<int> SalaryClassID { get; set; }
-        public Nullable<double> Salary { get; set; }
-        public Nullable<short> VacationHours { get; set; }
-        public Nullable<short> SickLeaveHours { get; set; }
+        public string Password { get; set; }
+        public string SalaryClassID { get; set; }
+        public double Salary { get; set; }
+        public int TaxRate { get; set; }
+        public Nullable<double> SuperFund { get; set; }
         public Nullable<int> IsApproved { get; set; }
         public Nullable<double> NetPay { get; set; }
+        public Nullable<double> HrsWorked { get; set; }
+        public string Color { get; set; }
     }
 }

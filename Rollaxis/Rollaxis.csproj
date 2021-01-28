@@ -52,9 +52,15 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
@@ -64,6 +70,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
@@ -78,22 +87,13 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -168,6 +168,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EmpLoginController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -176,40 +177,43 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Address.cs">
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Department.cs">
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeLogin.cs">
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Leave.cs">
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\PROC_EmployeeLogin_Result.cs">
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Response.cs" />
-    <Compile Include="Models\RollaxisDB.Context.cs">
+    <Compile Include="Models\RollaxisDBEntitles.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RollaxisDB.Context.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RollaxisDB.cs">
+    <Compile Include="Models\RollaxisDBEntitles.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RollaxisDB.Designer.cs">
+    <Compile Include="Models\RollaxisDBEntitles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RollaxisDB.edmx</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SalaryClass.cs">
-      <DependentUpon>RollaxisDB.tt</DependentUpon>
+      <DependentUpon>RollaxisDBEntitles.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -222,15 +226,15 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\RollaxisDB.Context.tt">
+    <Content Include="Models\RollaxisDBEntitles.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RollaxisDB.edmx</DependentUpon>
-      <LastGenOutput>RollaxisDB.Context.cs</LastGenOutput>
+      <DependentUpon>RollaxisDBEntitles.edmx</DependentUpon>
+      <LastGenOutput>RollaxisDBEntitles.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\RollaxisDB.tt">
+    <Content Include="Models\RollaxisDBEntitles.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RollaxisDB.edmx</DependentUpon>
-      <LastGenOutput>RollaxisDB.cs</LastGenOutput>
+      <DependentUpon>RollaxisDBEntitles.edmx</DependentUpon>
+      <LastGenOutput>RollaxisDBEntitles.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -253,13 +257,14 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Models\RollaxisDB.edmx">
+    <EntityDeploy Include="Models\RollaxisDBEntitles.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>RollaxisDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>RollaxisDBEntitles.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\RollaxisDB.edmx.diagram">
-      <DependentUpon>RollaxisDB.edmx</DependentUpon>
+    <Content Include="Models\RollaxisDBEntitles.edmx.diagram">
+      <DependentUpon>RollaxisDBEntitles.edmx</DependentUpon>
     </Content>
+    <None Include="packages.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

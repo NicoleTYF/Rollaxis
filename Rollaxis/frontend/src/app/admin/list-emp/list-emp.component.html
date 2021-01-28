@@ -1,0 +1,77 @@
+<HTML data-ng-app='Dashboard'>
+    <STYLE>
+      body {
+        background-color: #F2F2F2;
+      }
+    
+      h2 {
+        margin-bottom: 0%;
+      }
+  
+      .sidebar li {
+        color: white;
+        text-align: center;
+        list-style-type: none;
+      }
+  
+   .sidebar {
+    height: 90.5%;
+    width: 210px;
+    position: fixed;
+    z-index: 1;
+    top: auto;
+    left: 0;
+    bottom: 0;
+    background-color: #5E5C5C;
+    overflow-x: hidden;
+    padding-top: 16px;
+  }
+  
+  .sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  .main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+    </STYLE>
+  
+  <BODY> 
+  
+    <div class="sidebar">
+      <li> 
+          <H2>Employee 1</H2> 
+          <small>Manager</small>
+          <br/>
+          <small>Finance</small>
+      </li>
+  
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['register']">View Tax Invoice</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['login']">Logout</a>
+      </li>
+      <a href="/login"><i class="fa fa-fw fa-user"></i> </a>
+      <a href="/register"><i class="fa fa-fw fa-envelope"></i> Contact</a>
+    </div>
+  
+  
+  
+  
+  
+  </BODY>

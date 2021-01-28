@@ -1,34 +1,277 @@
-<div class="container" style="padding-top:40px;">  
-    <div class="row">  
-      <div class="col-md-6 mx-auto">  
-        <div class="card mx-4">  
-          <div class="card-body p-4">  
-            <form (ngSubmit)="onFormSubmit()">  
-              <h1 style="text-align:center">Register</h1>  
-
-              <div class="input-group mb-3">  
-
-                <input type="text" class="form-control" placeholder="Username"  formControlName="UserName">  
-              </div>  
-              <div class="input-group mb-3">  
-                <input type="text" class="form-control" placeholder="Loginname"  formControlName="LoginName">  
-              </div>  
-              <div class="input-group mb-3">  
-                <input type="password" class="form-control" placeholder="Password"  formControlName="Password">  
-              </div>  
-              <div class="input-group mb-4">  
-                <input type="text" class="form-control" placeholder="Email"  formControlName="Email">  
-              </div>  
-              <div class="input-group mb-4">  
-                <input type="text" class="form-control" placeholder="Contact No"  formControlName="ContactNo">  
-              </div>  
-              <div class="input-group mb-4">  
-                <input type="text" class="form-control" placeholder="Address"  formControlName="Address">  
-              </div>  
-              <button type="submit" class="btn btn-block btn-success">Add User</button>  
-            </form>  
-          </div>  
-        </div>  
-      </div>  
-    </div>  
-  </div>  
+<HTML ng-app="Register">
+  <STYLE>
+    body {
+      height: 518px;
+      overflow: hidden;
+      padding-top: 1.7%;
+      margin-bottom: 0%;
+      padding-bottom: 0%;
+      background-color: gray;
+    }
+  
+    h1 {
+      text-align: center;
+    }
+  
+    label {
+      color:rgba(100, 100, 100, 1);
+    }
+    
+    small {
+      color: lightslategray; 
+      font-size: 12px;
+    }
+  
+    .topnav {
+      background-color: #404040;
+    } 
+  
+    #logo {
+      width: 13%;
+      margin-top: 0.5%; 
+      margin-left: 3%;
+      padding-bottom: 0;
+    }
+  
+    #RegForm {
+      width: 37%;
+      height: 70%;
+      margin: auto 25%;
+      padding: 20px 80px; 
+      box-shadow: 0px 8px 9px 0px rgba(100, 100, 100, 1);
+      margin-bottom: 0%; 
+      border-radius: 8px;
+      background-color: ghostwhite; 
+    }
+  
+    #RegForm input[type=text],  
+    #RegForm input[type=password], 
+    #RegForm input[type=email] {
+      width:  100%;
+      height: 40px;
+      font-size: 18px;
+      padding-left: 9px; 
+      border-radius: 5px;
+    }
+  
+    #topPanel {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    #topPanel div {
+      width: 46%;
+    }
+  
+    .strength-meter[_ngcontent-vki-c48] {
+      width: 80% !important;
+    } 
+  
+    .button {
+      color: black;
+      border: none;
+      padding: 14px; 
+      transition: all 0.4s;
+      font-weight: bold;
+      background-color: gold;
+    }
+  
+    .button:hover {
+      background-color: yellow;
+    }
+  
+    .login {
+      width: 100%;
+    }
+  
+    .iconBtn {
+      width: 20px;
+      height: 20px; 
+      margin: 0;
+    }
+  
+    .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    opacity: 0;
+    width: 270px;
+    background-color: rgba(70, 70, 70, 0.9);
+    color: #fff;
+    transition: all 0.2s;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  [ng\:cloak], [ng-cloak], [data-ng-cloak], 
+  [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+      display: none !important;
+  }
+  
+  small.error {
+      color: #C00;
+      font-weight: bold;
+      font-size: 8pt;
+  }
+  
+  input.error {
+      border-color: red;
+  }
+  
+  .password-count {
+      float: right;
+      position: relative;
+      bottom: 24px;
+      right: 10px;
+  }
+  
+  .strength-meter {
+      position: relative;
+      height: 3px;
+      background: #DDD;
+      margin: 10px auto 10px;
+      border-radius: 3px;
+  }
+  
+  .strength-meter:before, .strength-meter:after {
+      content: '';
+      height: inherit;
+      background: transparent;
+      display: block;
+      border-color: #FFF;
+      border-style: solid;
+      border-width: 0 5px 0 5px;
+      position: absolute;
+      width: 80px;
+      z-index: 10;
+  }
+  
+  .strength-meter:before {
+      left: 70px;
+  }
+  
+  .strength-meter:after {
+      right: 70px;
+  }
+  
+  .strength-meter-fill {
+      background: transparent;
+      height: inherit;
+      position: absolute;
+      width: 0;
+      border-radius: inherit;
+      transition: width 0.5s ease-in-out, background 0.25s;
+  }
+  
+  .strength-meter-fill[data-strength='0'] {
+      background: darkred;
+      width: 20%;
+  }
+  
+  .strength-meter-fill[data-strength='1'] {
+      background: orangered;
+      width: 40%;
+  }
+  
+  .strength-meter-fill[data-strength='2'] {
+      background: orange;
+      width: 60%;
+  }
+  
+  .strength-meter-fill[data-strength='3'] {
+      background: yellowgreen;
+      width: 80%;
+  }
+  
+  .strength-meter-fill[data-strength='4'] {
+      background: green;
+      width: 100%;
+  }
+  
+  #copyright {
+    color: lightgray;
+    width: 100%;
+    bottom: 2px;
+    text-align: center;
+    background-color: gray;
+  }
+  
+  </STYLE>
+  
+  <HEAD>
+    <META charset='utf-8'>
+    <TITLE>Register</TITLE>
+  </HEAD>
+  
+  <NAV  class="topnav">
+    <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo_text.png" /> 
+  </NAV>
+  
+  <BODY>
+    <router-outlet> </router-outlet> 
+    <DIV class="content" role="main">
+      <FORM method="POST" role="form" name="RegForm" id="RegForm" ng-controller="RegisterCtrl">
+        <H1>Register New Employee</H1>
+        <DIV id="topPanel">
+          <DIV>
+            <LABEL for="id">EMPLOYEE ID </LABEL> 
+            <DIV class="tooltip">  
+              <IMG class="iconBtn tooltip" SRC="./assets/ic_questionMark_normal.png"/>
+              <span class="tooltiptext">The Employee ID can be found in your job offer letter.</span>
+            </DIV> 
+            <BR/>
+            <INPUT type="text" ng-model="tabsCtrl.user" name="id">
+          </DIV>
+          <DIV>
+            <LABEL for="email">USERNAME</LABEL> 
+            <DIV class="tooltip">   
+              <IMG class="iconBtn tooltip" SRC="./assets/ic_questionMark_normal.png"/>
+              <span class="tooltiptext">Enter the one listed in your job offer letter, 
+                                        used to verify your identity and send new credentials.</span>
+            </DIV> 
+            <INPUT type="email" name="email" ng-model="email" ng-class="(RegForm.email.$dirty && 
+                   RegForm.email.$invalid) ? 'error' : ''" ng-required="true" > 
+            <small class="error" ng-show="RegForm.email.$dirty && 
+                 RegForm.email.$error.email" ng-cloak>{{"* Email is invalid."}}</small>
+          </DIV>
+        </DIV>
+        <HR>
+        <LABEL for="password">NEW PASSWORD</LABEL> <BR/>
+        <input type="password" class="ok-password" ng-class="(RegForm.password.$dirty && 
+               RegForm.password.$invalid) ? 'error' : ''" id="password" name="password" 
+              ng-required="true" ng-model="password" />
+          <div class="strength-meter"> 
+            <div class="strength-meter-fill" attr.data-strength="2"></div>
+          </div>
+          <small>Your password must be 8-20 characters long, contain letters and numbers, 
+                 and must not contain spaces, special characters, or emoji.</small>
+        <BR><BR>
+        <LABEL for="password1">CONFIRM PASSWORD</LABEL> <BR/>
+        <INPUT type="password" />
+        <BR><BR>
+        <INPUT type="checkbox"/> I have read CompanyX's <a href="#">data collection policy</a>.
+        <BR/><BR/>
+        <BUTTON type="submit" class="button login" ng-disabled="RegForm.$invalid">REGISTER</BUTTON>
+        </FORM>
+    </DIV>
+  
+    <script src="../../bower_components/angular/angular.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+  </BODY>
+    <DIV id="copyright"> © 2021  Rollaxis Limited </DIV>
+  </HTML>
+  
+  

@@ -14,8 +14,7 @@ namespace Rollaxis.Models
     
     public partial class SalaryClass
     {
-        public int SalaryClassID { get; set; }
-        public string SalaryClass1 { get; set; }
+        public string SalaryClassID { get; set; }
         public Nullable<double> Rate { get; set; }
         public Nullable<double> Bonus { get; set; }
         public Nullable<double> MedicalAllowance { get; set; }

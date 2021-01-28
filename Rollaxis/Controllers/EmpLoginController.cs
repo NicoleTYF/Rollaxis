@@ -8,8 +8,9 @@ using System.Web.Http;
 using Rollaxis.Models;
 
 namespace Rollaxis.Controllers {
+    [RoutePrefix("api/Login")]
     public class EmpLoginController : ApiController {
-        [Route("Api/Login/UserLogin")] 
+        [Route("UserLogin")] 
         [HttpPost] 
         public Response Login (Login lg) {
            RollaxisDBEntities DB = new RollaxisDBEntities();
@@ -31,7 +32,7 @@ namespace Rollaxis.Controllers {
                 }
 
                 // New User Registration 
-                [Route("Api/Login/UserRegistration")]
+                [Route("UserRegistration")]
                 [HttpPost] 
                 public object createContact(Registration lvm) {
                     try {

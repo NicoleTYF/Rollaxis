@@ -1,7 +1,211 @@
-<div>  
-    <div class="row">  
-      <div class="col-sm-12 btn btn-primary">  
-          Welcome to DashBoard  
-      </div>  
-    </div>  
-  </div>  
+<HTML ng-app='app-dashboard'>
+  <STYLE>
+    body {
+      background-color: #F2F2F2;
+    }
+  
+    h2 {
+      margin-bottom: 0%;
+    }
+
+    i {
+      color:lightslategrey;
+      min-width: 14px;
+      min-height: 14px;
+      max-width: 14px;
+      max-height: 14px;
+      transition: all 0.3s;
+    }
+
+    th {
+       border-bottom: 2px gold solid;
+    }
+
+    tr td:nth-child(1), tr th:nth-child(1) {
+      width: 50px;
+    }
+
+    tr td:nth-child(3), tr th:nth-child(3) {
+      width: 60px;
+    }
+    
+    tr td:nth-child(4), 
+    tr th:nth-child(4)
+    tr td:nth-child(5), 
+    tr th:nth-child(5)  {
+      width: 70px;
+    } 
+
+    tr td:nth-child(2) {
+      color: rgb(73, 72, 72); 
+      font-weight:bold; 
+      padding-left: 10px;
+    }
+
+    tr:hover, tr:hover td:nth-child(2) {
+      color: white;
+      transition: all 0.3s;
+      background-color: darkkhaki;
+    }
+
+    .main {
+      padding-top: 7%;
+      margin-left: 18%;
+    }
+
+    .col.left {
+      width: 20%;
+      padding: 10px;
+      box-shadow: 0px 8px 8px -3px rgba(180, 180, 180, 0.7); 
+      margin-top: -1%;
+      margin-left: 0%;
+      background-color: white;
+      border-bottom-left-radius: 5px; 
+      border-bottom-right-radius: 5px;
+    }
+
+    .col.right {
+      width: 51%;
+      padding: 10px;
+      position: relative;
+      margin-top: -47.4%;
+      margin-left: 22%; 
+      background-color: white;
+    }
+
+    .panel {
+      padding: 8px 0px;
+      margin-top: 6%;
+      box-shadow: 0px 8px 8px -3px rgba(180, 180, 180, 0.7); 
+      border-left: 5px #fde425 solid;
+      border-bottom: 2px #fde425 solid;
+      background-color: white;
+    }
+
+    .panel small {
+      color: slategray;
+      font-family: Nunito thin;
+    }
+
+    #uProfilePic {
+      width: 100%;
+      height: 180px;
+    }
+
+    #uProfilePic span {
+      color: whitesmoke; 
+      display: inline-block;
+      padding: 73px;
+      font-size: 40px; 
+      text-align: center; 
+    }
+
+    .flex, #topPanel {
+      display: flex; 
+      justify-content: space-evenly;
+    }
+
+    .vl {
+      box-shadow: 1px 3px 4px 1px rgba(200, 200, 200, 0.3);
+      border-left: 1.3px gainsboro solid;
+    }
+
+    #bottomPanel {
+      margin-left: 30px;
+    }
+
+    #deptSelect {
+      width: 100%;
+      height: 100px;
+    }
+
+    #deptSelect option:nth-child(even) {
+      background-color: #eee;
+    }
+
+  </STYLE>
+
+  <BODY> 
+    <TITLE>Search Employee</TITLE>
+    <NAV class="topnav">
+      <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo.png" /> 
+          <button class="navbtn" style="margin-left: 6%;"><span>Dashboard</span></button>
+          <button class="navbtn active" ><span>Search Employee</span></button>
+          <button class="navbtn" ><span>Manage Invoice</span></button>
+          <button class="navbtn" ><span>Manage Leave</span></button>
+        
+        <!-- User Profile dropdown -->
+        <button class="dropbtn" id="userDropbtn">
+          <DIV id="profilePic" [ngStyle]="{'background-color': color}">
+            <span>{{initial}}</span></DIV>
+          &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
+         </button>
+         <div class="dropdown-content" id="userDropContent">
+          <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
+          <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
+         </div>
+    </NAV>
+
+    <DIV class="main"> 
+      <DIV class="left col">
+        <H4>Search Criteria</H4>
+        <small>Name: </small> 
+        <input type="text" name="name" ng-model="name" (keyup)="onKey($event)"> 
+        <BR/><BR/>
+        <small>Employee ID: </small> 
+        <input style="width: 60px;" type="text" name="managerId">
+        <BR/><BR/>
+        <small>Manager ID: </small> 
+        <input style="width: 60px;" type="text" name="managerId">
+        <BR/><BR/>
+        <small>Salary: </small> 
+        <input style="width: 70px;" type="number" name="salFrom"> - 
+        <input style="width: 70px;" type="number" name="salTo">
+        <BR/><BR/>
+        
+        <small>Department:</small> <BR/>
+        <select id="deptSelect" name="dept" multiple >
+          <option *ngFor="let d of dep">{{d.DepartmentName}} </option> 
+        </select>
+        <BR/><BR/>
+        
+        <small>Location: </small> 
+        <select id="deptSelect" name="dept" multiple >
+          <option *ngFor="let l of distinctLocation">{{l}} </option> 
+        </select>
+
+      </DIV>
+      
+      <DIV class="right col">
+        <H2 style= "margin-left: 6px; ">
+          <i class="fas fa-user-tie"></i> &nbsp;&nbsp; Search Employee 
+        </H2> 
+        <BR/>
+        <TABLE> 
+          <THEAD>
+            <TH>ID</TH>
+            <TH>NAME</TH>
+            <TH>DEPT</TH>
+            <TH>NET PAY</TH>
+            <TH>STATUS</TH>
+          </THEAD>
+          <TBODY> 
+            <TR *ngFor="let emp of emps" 
+                title="Last modified {{emp.ModifiedDate}}">
+              <TD>{{emp.EmployeeID}}</TD>
+              <TD>{{emp.FirstName}}&nbsp;{{emp.LastName}}</TD>
+              <TD>{{emp.DepartmentID}}</TD>
+              <TD>{{emp.NetPay | currency }}</TD>
+              <TD>{{emp.IsApproved}}</TD>
+            </TR> 
+          </TBODY>
+        </TABLE>
+      </DIV>
+    </DIV>
+
+    
+    
+  </BODY>
+
+
+</HTML>

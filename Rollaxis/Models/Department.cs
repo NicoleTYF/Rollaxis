@@ -14,7 +14,8 @@ namespace Rollaxis.Models
     
     public partial class Department
     {
-        public long DepartmentID { get; set; }
+        public string DepartmentID { get; set; }
         public string DepartmentName { get; set; }
+        public string Location { get; set; }
     }
 }

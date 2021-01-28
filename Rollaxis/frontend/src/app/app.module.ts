@@ -7,16 +7,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+
 import { EmployeeComponent } from './employee/employee.component';
-import { AddEmpComponent } from './employee/add-emp/add-emp.component';
-import { EditEmpComponent } from './employee/edit-emp/edit-emp.component';
+import { AddEmpComponent } from './admin/add-emp/add-emp.component';
+import { EditEmpComponent } from './admin/edit-emp/edit-emp.component';
 import { ShowEmpComponent } from './employee/show-emp/show-emp.component';
-import { DeleteEmpComponent } from './employee/delete-emp/delete-emp.component';
-import { DepartmentComponent } from './department/department.component';
-import { AddDepComponent } from './department/add-dep/add-dep.component';
-import { EditDepComponent } from './department/edit-dep/edit-dep.component';
-import { ShowDepComponent } from './department/show-dep/show-dep.component';
-import { DeleteDepComponent } from './department/delete-dep/delete-dep.component';
+import { DeleteEmpComponent } from './admin/delete-emp/delete-emp.component';
+
+import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
+import { LeaveComponent } from './leave/leave.component';
+
+import {HttpClientModule, HttpClient} from '@angular/common/http'; 
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -24,23 +27,23 @@ import { DeleteDepComponent } from './department/delete-dep/delete-dep.component
     DashboardComponent,
     LoginComponent,
     RegisterComponent,
+    
     EmployeeComponent,
     AddEmpComponent,
     EditEmpComponent,
     ShowEmpComponent,
     DeleteEmpComponent,
-    DepartmentComponent,
-    AddDepComponent,
-    EditDepComponent,
-    ShowDepComponent,
-    DeleteDepComponent
+
+    LeaveComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    HttpClientModule, 
+    BrowserAnimationsModule, 
+    PasswordStrengthMeterModule
   ],
-  providers: [],
+  providers: [ DatePipe ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

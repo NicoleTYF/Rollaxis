@@ -4,12 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http; 
-using Rollaxis.Models; 
+using Rollaxis.Models;
+using System.Web.Http.Cors;
 
 namespace Rollaxis.Controllers {
-    [RoutePrefix("Api/Employee")]
+
+    [RoutePrefix("api/Employee")]
     public class EmployeeController : ApiController { 
-        private RollaxisDBEntities Obj = new RollaxisDBEntities(); 
+
+        private RollaxisDBEntities Obj;
+        public EmployeeController() {
+            Obj = new RollaxisDBEntities();
+        }
+        public IEnumerable<Employee> GetEmp() {
+            return Obj.Employees.ToList();
+        }
+
         [HttpGet] 
         [Route("AllEmployees")] 
         public IQueryable<Employee> GetEmployee() {
@@ -21,22 +31,11 @@ namespace Rollaxis.Controllers {
         }
 
         [HttpGet] 
-        [Route("Department")] 
-        public IQueryable<Department> GetDepartment() {
-            try {
-                return Obj.Departments; 
-            } catch (Exception) {
-                throw; 
-            }
-        }
-
-        [HttpGet] 
-        [Route("GetEmployeeById/{EmployeeId}")] 
-        public IHttpActionResult GetEmployById(string id) {
+        [Route("GetEmployeeById/{id}")] 
+        public IHttpActionResult GetEmployeeById(string id) {
             Employee e = new Employee(); 
-            int ID = Convert.ToInt32(e); 
             try {
-                e = Obj.Employees.Find(ID); 
+                e = Obj.Employees.Find(id); 
                 if(e == null) {
                     return NotFound();
                 }
@@ -47,7 +46,7 @@ namespace Rollaxis.Controllers {
         }
 
         [HttpPost] 
-        [Route("InsertEmployees")] 
+        [Route("InsertEmployee")] 
         public IHttpActionResult PostEmployee(Employee e) {
             if(!ModelState.IsValid) {
                 return BadRequest(ModelState); 
@@ -71,6 +70,7 @@ namespace Rollaxis.Controllers {
                 Employee emp = new Employee(); 
                 emp = Obj.Employees.Find(e.EmployeeID); 
                 if(emp == null) {
+                    emp.Prefix = e.Prefix; 
                     emp.FirstName = e.FirstName; 
                     emp.LastName = e.LastName; 
                     emp.ManagerID = e.ManagerID; 
@@ -82,13 +82,18 @@ namespace Rollaxis.Controllers {
                     emp.ContactNo = e.ContactNo; 
                     emp.Gender = e.Gender; 
                     emp.Email = e.Email; 
+                    emp.BirthDate = e.BirthDate; 
+                    emp.BirthMonth = e.BirthMonth; 
                     emp.PasswordSalt = e.PasswordSalt; 
+                    emp.Password = e.Password; 
                     emp.Salary = e.Salary; 
+                    emp.SuperFund = e.SuperFund; 
+                    emp.TaxRate = calculateTax(e.Salary); 
                     emp.HireDate = e.HireDate; 
-                    emp.VacationHours = e.VacationHours; 
-                    emp.SickLeaveHours = e.SickLeaveHours; 
                     emp.IsApproved = e.IsApproved; 
-                    emp.ModifiedDate = e.ModifiedDate;
+                    emp.ModifiedDate = e.ModifiedDate; 
+                    emp.HrsWorked = e.HrsWorked; 
+                    emp.Color = e.Color;
                 }
                 int i = this.Obj.SaveChanges(); 
             } catch (Exception) {
@@ -98,7 +103,7 @@ namespace Rollaxis.Controllers {
         }
 
         [HttpDelete] 
-        [Route("DeleteEmployees")] 
+        [Route("DeleteEmployee")] 
         public IHttpActionResult DeleteEmployee(int id) {
             Employee e = Obj.Employees.Find(id); 
             if(e == null) {
@@ -109,5 +114,22 @@ namespace Rollaxis.Controllers {
             return Ok(e);
 
         }
+
+        public int calculateTax(double salary) {
+            int taxRate = 0;
+            if (salary <= 18200) {
+                taxRate = 0;
+            } else if (salary <= 37000) {
+                taxRate = 19;
+            } else if (salary <= 87000) {
+                taxRate = 32;
+            } else if (salary <= 180000) {
+                taxRate = 37;
+            } else {
+                taxRate = 45;
+            }
+            return taxRate;
+    }
+
     }
 }

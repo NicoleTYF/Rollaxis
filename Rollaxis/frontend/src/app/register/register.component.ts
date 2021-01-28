@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';    
-import { LoginService } from '../login.service';    
+import { LoginService } from '../login/service/login.service';    
 import {Register} from '../register';    
 import {Observable} from 'rxjs';    
 import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';    
@@ -12,7 +12,8 @@ import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from '@angula
 export class RegisterComponent implements OnInit {    
     data = false;    
     UserForm: any;    
-    message = "";    
+    message = ""; 
+    passwordStrength = 2;   
   constructor(private formbulider: FormBuilder,private loginService:LoginService) { }    
 
   ngOnInit() {    
