@@ -34,7 +34,7 @@ export class ShowEmpComponent implements OnInit {
   clothAllowance=400.0;
   mealAllowance=400.0;
 
-  id:string = "993675" 
+  id:string = "297059" 
 
   empService: any;
   emp: any; 

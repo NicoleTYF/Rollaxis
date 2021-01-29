@@ -102,7 +102,7 @@ namespace Rollaxis.Controllers {
             try {
                 var result = LeaveList().Where(l =>
                     l.EmployeeID.Trim().Equals(EmpID) &&
-                    l.Type == "Others…" && l.Status == "Finalised"
+                    l.Type == "Others…" && l.Status.Trim() == "Finalised"
                     && l.FromDate.Year == DateTime.Now.Year
                     && l.FromDate.Month == DateTime.Now.Month);
 

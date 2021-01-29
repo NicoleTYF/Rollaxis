@@ -18,7 +18,10 @@ import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { LeaveComponent } from './leave/leave.component';
 
 import {HttpClientModule, HttpClient} from '@angular/common/http'; 
-import { DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common'; 
+// import { LeaveFilterPipe } from './leave/leave-filter.pipe'; 
+import { FormsModule } from '@angular/forms';
+import { ShowLeaveComponent } from './leave/show-leave/show-leave.component';
 
 
 @NgModule({
@@ -34,10 +37,14 @@ import { DatePipe } from '@angular/common';
     ShowEmpComponent,
     DeleteEmpComponent,
 
-    LeaveComponent
+    LeaveComponent,
+
+    ShowLeaveComponent, 
+    // LeaveFilterPipe
   ],
-  imports: [
-    BrowserModule,
+  imports: [ 
+    FormsModule, 
+    BrowserModule, 
     AppRoutingModule,
     HttpClientModule, 
     BrowserAnimationsModule, 

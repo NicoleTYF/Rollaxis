@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';  
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common' 
+import { Leave } from './leave'; 
+import { ViewChild } from '@angular/core'
 
 @Component({
   selector: 'app-leave',
@@ -14,28 +16,56 @@ export class LeaveComponent implements OnInit {
   initial= this.name.substr(0, 2); 
   dateStr: any; 
   lastMonthStr: any;
-
   todayDate: Date = new Date(); 
 
+  leaves: Leave[] = []; 
+  type = "-Select- "; 
+  typeFil = "-Select- ";
+  status = "Active"; 
+  desc = " "; 
+  fromDate = new Date(this.todayDate.getFullYear(), 
+              this.todayDate.getMonth() - 1, this.todayDate.getDay()); 
+  toDate = this.todayDate; 
 
-  leaves: any;
+  filteredLeaves: Leave[] = []; 
+
+  // @ViewChild('desc', {static: true}) desc: ElementRef = new Input(); 
+  // @ViewChild('type', {static: true}) type: ElementRef = new Input();
+  // @ViewChild('status', {static: true}) status: ElementRef = new Input();
+
+  limit: number= 25;
+
+  page: number = 1;
 
   constructor(private httpService: HttpClient, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.httpService.get('https://localhost:44347/api/Leave/AllLeaves').subscribe(  
       data => {  
-        this.leaves = data as any;  
+        this.leaves = (data as Leave[]).sort((a, b) => 
+                      new Date(b.FromDate).getTime() - new Date(a.FromDate).getTime()); 
+        this.page = (data as Leave[]).length / this.limit;
       }  
     );  
-
     
     this.convertDate();
   }
 
-  onKey(event:any) {
-    const inputValue = event.target.value; 
-    // this.emps.filter()
+  onFilter() {
+    if(this.type.includes("-Select- ")) {
+      this.typeFil = " ";
+    } else if (this.type.includes("Others…")) {
+      this.typeFil = "Others…";
+    } else {
+      this.typeFil = this.type;
+    }
+    this.filteredLeaves = this.leaves.filter(l => 
+          l.Status.includes(this.status) && 
+          l.Type.includes(this.typeFil) &&
+          (l.Description.includes(this.desc) || 
+          l.EmployeeID.includes(this.desc))); 
+
+    return this.filteredLeaves;
   }
 
   convertDate() {
