@@ -24,7 +24,7 @@ namespace Rollaxis
             );  
   
             EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");  
-            config.EnableCors(cors); 
+            config.EnableCors(cors);
         }
     }
 }

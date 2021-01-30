@@ -156,11 +156,14 @@
           <BR/><BR/>
 
           <small>Status: </small> 
-          <select id="statusSelect" name="status" [(ngModel)]="status">
+          <select id="statusSelect" name="status" [(ngModel)]="status"> 
+            <option value="Any" selected>Any </option> 
             <option value="Active">Active </option> 
             <option value="Pending">Pending </option> 
+            <option value="Finalised">Finalised </option> 
             <option value="Rejected">Rejected </option> 
           </select>
+          
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <small>Type: </small> 
           <select id="statusSelect" name="type" [(ngModel)]="type" > 

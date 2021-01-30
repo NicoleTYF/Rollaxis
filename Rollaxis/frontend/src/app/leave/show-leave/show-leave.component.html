@@ -1,15 +1,11 @@
-<HTML ng-app='app-leave'>
+<HTML ng-app='app-show-leave'>
     <STYLE>
-      body {
-        background-color: #F2F2F2;
-      }
     
       h2 {
         margin-bottom: 0%;
       }
   
       i {
-        color:lightslategrey;
         min-width: 14px;
         min-height: 14px;
         max-width: 14px;
@@ -19,6 +15,10 @@
   
       th {
          border-bottom: 2px gold solid;
+      }
+
+      td {
+         border-bottom: 2px slategrey solid;
       }
   
       tr td:nth-child(1), tr th:nth-child(1) { 
@@ -46,14 +46,9 @@
   
       tr td:nth-child(2) {
         color: rgb(73, 72, 72); 
-        font-weight:bold; 
-        padding-left: 10px;
-      }
-  
-      tr:hover, tr:hover td:nth-child(2) {
-        color: white;
-        transition: all 0.3s;
-        background-color: darkkhaki;
+        padding-top: 4px; 
+        padding-left: 10px; 
+        padding-bottom: 8px; 
       }
 
       tbody {
@@ -81,15 +76,11 @@
       }
   
       .row.low {
-        width: 68.3%;
-        height: 320px;
+        width: 68.3%; 
         padding: 12px;
         position: relative; 
-        overflow-y: scroll;
         box-shadow: 0px 8px 8px -3px rgba(180, 180, 180, 0.7); 
         background-color: white;
-        -ms-overflow-style: none;  
-        scrollbar-width: none;  
       }
 
       .row.low::-webkit-scrollbar {
@@ -117,6 +108,16 @@
       #bottomPanel {
         margin-left: 30px;
       }
+
+      #editBtn {
+        color: black; 
+        float: right; 
+        font-size: 16px; 
+        font-weight: 500; 
+        padding: 6.4px 10px; 
+        background-color: rgb(238, 238, 238);             
+      }
+
   
     </STYLE>
     
@@ -125,13 +126,12 @@
     </HEAD>
   
     <BODY> 
-      <TITLE>Manage Leave</TITLE>
       <NAV class="topnav">
-        <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo_text.png" /> 
+        <IMG ID="logo" ALT="Rollaxis logo" SRC="../assets/logo_text.png" /> 
             <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
-            <button class="navbtn" ><span>Search Employee</span></button>
-            <button class="navbtn" ><span>Manage Invoice</span></button>
-            <button class="navbtn active" ><span>Manage Leave</span></button>
+            <button class="navbtn" ><span>My Details</span></button>
+            <button class="navbtn" ><span>Print Invoice</span></button>
+            <button class="navbtn active" ><span>Apply Leave</span></button>
           
           <!-- User Profile dropdown -->
           <button class="dropbtn" id="userDropbtn">
@@ -146,19 +146,17 @@
       </NAV>
   
       <DIV class="main" ng-controller="leaveCtrl" > 
-        <H2 style="margin-left: 290px;">
-            <i class="fas fa-door-open"></i>&nbsp;&nbsp;&nbsp; Manage Leave</H2>
+        <H2 style="margin-left: 27.7%;">
+            <i class="fas fa-door-open"></i>&nbsp;&nbsp;&nbsp; Apply Leave</H2>
         <BR/>
         <DIV class="up row"> 
-          <input type="text" name="name" [(ngModel)]="desc"  
-            placeholder="Search ..." id="searchBar" >  
-          
-          <BR/><BR/>
 
           <small>Status: </small> 
-          <select id="statusSelect" name="status" [(ngModel)]="status">
+          <select id="statusSelect" name="status" [(ngModel)]="status"> 
+            <option value="Any" selected>Any </option> 
             <option value="Active">Active </option> 
             <option value="Pending">Pending </option> 
+            <option value="Finalised">Finalised </option> 
             <option value="Rejected">Rejected </option> 
           </select>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -168,35 +166,60 @@
             <option value="Vacation">Vacation </option> 
             <option value="Sick Leave">Sick Leave </option> 
             <option value="Others… ">Others… </option> 
-          </select>
+          </select> 
 
-          <DIV style="float: right"> 
-            <input type="date" id="fromInput" value="{{ lastMonthStr }}" 
-                  [(ngModel)]="fromDate" name="from"> 
-            
-            <small> to </small>
-            <input type="date" id="toInput" value="{{ dateStr }}" 
-                  [(ngModel)]="todayDate" name="to">
-          </DIV> 
+          <BUTTON id="addBtn" style="background-color: gold; 
+                        color: black; font-weight: bold;
+                        float: right; width: 23%; padding: 7px 16px;"> 
+                        + &nbsp;&nbsp; APPLY LEAVE </BUTTON>
         </DIV>
         
         <DIV class="low row">
           <TABLE> 
             <THEAD>
               <TH>ID</TH>
-              <TH>EMPLOYEE</TH>
-              <TH>FROM</TH>
-              <TH>TO</TH>
-              <TH>TYPE</TH> 
+              <TH>APPLICATION</TH> 
               <TH>STATUS</TH>
             </THEAD>
             <TBODY> 
               <TR *ngFor="let l of onFilter()" >
                 <TD>{{ l.LeaveID }}</TD>
-                <TD>{{ l.EmployeeID }}</TD>
-                <TD>{{ l.FromDate | date }}</TD>
-                <TD>{{ l.ToDate | date }}</TD> 
-                <TD style="width: 13%;">{{ l.Type }}</TD>
+                <TD>  
+                  <DIV style="display: flex; justify-content:space-between;">
+                        <h2>{{ l.Type }} </h2>
+                        <DIV >
+                          <BUTTON *ngIf=" l.Status.includes('Pending ')"  id="editBtn" > 
+                            <i class="far fa-edit"></i> &nbsp;
+                               Edit 
+                          </BUTTON> 
+                          <span style="background-color: palegoldenrod; color: black; 
+                          font-size: 16px; font-weight: 500; padding: 8px 10px; float: right;">
+                           <i class="fas fa-door-open"></i> &nbsp;
+                          {{ dateDiff( l.FromDate, l.ToDate ) }}.{{ timeDiff( l.FromTime, l.ToTime ) }}
+                          <small>days</small></span>
+                        </DIV>
+                  </DIV> 
+
+                  <DIV style="display: flex; justify-content: left;">
+                    <DIV style="background-color: rgb(238, 237, 228);
+                              padding: 6px; min-width: 90px;">
+                          <small style="font-weight: bold;">FROM </small> <BR/> 
+                            <i class="far fa-calendar-alt"></i> 
+                            <span> {{ l.FromDate | date }} </span> <BR/>
+                            <small>{{ l.FromTime }}</small>  
+                    </DIV>  &nbsp; &nbsp; &nbsp; &nbsp;     
+                    <DIV style="background-color: rgb(238, 237, 228); 
+                              padding: 6px; min-width: 90px;">
+                      <small style="font-weight: bold;">TO </small> <BR/> 
+                        <i class="far fa-calendar-alt"></i>
+                        <span> {{ l.ToDate | date }} <BR/> </span>
+                        <small>{{ l.ToTime }}</small>  
+                    </DIV>  
+                  </DIV>   
+
+                <BR/> <small style="font-weight: bold;">DESCRIPTION</small>
+                <BR/> <span>{{ l.Description }} </span>
+              </TD>
                 <TD *ngIf="l.Status.trim() == 'Finalised'" 
                 style="background-color: rgb(197, 197, 189); 
                   color:rgb(51, 51, 51); 
@@ -221,6 +244,7 @@
           </TABLE>
         </DIV>
       </DIV>
+      <BR/> <BR/> <BR/>
 
     </BODY>
   

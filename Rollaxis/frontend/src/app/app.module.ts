@@ -15,13 +15,15 @@ import { ShowEmpComponent } from './employee/show-emp/show-emp.component';
 import { DeleteEmpComponent } from './admin/delete-emp/delete-emp.component';
 
 import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
-import { LeaveComponent } from './leave/leave.component';
+import { LeaveComponent } from './leave/leave.component'; 
 
 import {HttpClientModule, HttpClient} from '@angular/common/http'; 
 import { DatePipe } from '@angular/common'; 
 // import { LeaveFilterPipe } from './leave/leave-filter.pipe'; 
-import { FormsModule } from '@angular/forms';
 import { ShowLeaveComponent } from './leave/show-leave/show-leave.component';
+import { AddLeaveComponent } from './leave/add-leave/add-leave.component'; 
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,11 +41,14 @@ import { ShowLeaveComponent } from './leave/show-leave/show-leave.component';
 
     LeaveComponent,
 
-    ShowLeaveComponent, 
+    ShowLeaveComponent,
+
+    AddLeaveComponent, 
     // LeaveFilterPipe
   ],
   imports: [ 
     FormsModule, 
+    ReactiveFormsModule, 
     BrowserModule, 
     AppRoutingModule,
     HttpClientModule, 

@@ -21,7 +21,8 @@ export class LeaveComponent implements OnInit {
   leaves: Leave[] = []; 
   type = "-Select- "; 
   typeFil = "-Select- ";
-  status = "Active"; 
+  status = "Any"; 
+  statusFil = ""; 
   desc = " "; 
   fromDate = new Date(this.todayDate.getFullYear(), 
               this.todayDate.getMonth() - 1, this.todayDate.getDay()); 
@@ -59,8 +60,15 @@ export class LeaveComponent implements OnInit {
     } else {
       this.typeFil = this.type;
     }
+
+    if(this.status.includes("Any ")) {
+      this.statusFil = " ";
+    } else {
+      this.statusFil = this.status;
+    }
+
     this.filteredLeaves = this.leaves.filter(l => 
-          l.Status.includes(this.status) && 
+          l.Status.includes(this.statusFil) && 
           l.Type.includes(this.typeFil) &&
           (l.Description.includes(this.desc) || 
           l.EmployeeID.includes(this.desc))); 

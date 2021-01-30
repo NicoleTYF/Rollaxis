@@ -1,0 +1,154 @@
+<HTML ng-app='app-add-leave'>
+    <STYLE>
+    
+      h2 {
+        margin-bottom: 0%;
+      }
+  
+      i {
+        min-width: 14px;
+        min-height: 14px;
+        max-width: 14px;
+        max-height: 14px;
+        transition: all 0.3s;
+      }
+  
+      .main {
+        padding-top: 7%;
+        margin-left: 20%;
+      }
+  
+      #uProfilePic {
+        width: 100%;
+        height: 180px;
+      }
+  
+      #uProfilePic span {
+        color: whitesmoke; 
+        display: inline-block;
+        padding: 73px;
+        font-size: 40px; 
+        text-align: center; 
+      }
+  
+      .vl {
+        box-shadow: 1px 3px 4px 1px rgba(200, 200, 200, 0.3);
+        border-left: 1.3px gainsboro solid;
+      }
+  
+      #bottomPanel {
+        margin-left: 30px;
+        background-color: lightgray;
+      }
+
+      #cancelBtn {
+        color: black; 
+        float: right; 
+        width: 33%; 
+        padding: 7px 16px;
+        font-weight: bold; 
+        margin-right: 24%; 
+        background-color: rgb(241, 241, 241); 
+      }
+
+  
+    </STYLE>
+    
+    <HEAD> 
+      <!-- <SCRIPT SRC="../../assets/js/leaveFilter.js"> </SCRIPT> -->
+    </HEAD>
+  
+    <BODY> 
+      <NAV class="topnav">
+        <IMG ID="logo" ALT="Rollaxis logo" SRC="../assets/logo_text.png" /> 
+            <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
+            <button class="navbtn" ><span>My Details</span></button>
+            <button class="navbtn" ><span>Print Invoice</span></button>
+            <button class="navbtn active" ><span>Apply Leave</span></button>
+          
+          <!-- User Profile dropdown -->
+          <button class="dropbtn" id="userDropbtn">
+            <DIV id="profilePic" [ngStyle]="{'background-color': color}">
+              <span>{{initial}}</span></DIV>
+            &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
+           </button>
+           <div class="dropdown-content" id="userDropContent">
+            <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
+            <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
+           </div>
+      </NAV>
+  
+      <FORM class="main" [formGroup]="leaveForm" (ngSubmit)="onSubmit()" > 
+        <H2>
+            <i class="fas fa-door-open"></i>&nbsp;&nbsp;&nbsp; Apply Leave</H2>
+        <BR/>
+        
+         <DIV class="panel flex"> 
+              <DIV id="rightPanel">
+                <DIV> 
+                  <small id="firstText" class="titles" >
+                    <i class="far fa-user"></i> &nbsp;EMPLOYEE ID  
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" value="{{ id }}" disabled>
+                  </small> 
+                </DIV>
+                <BR/>
+                <small class="titles">
+                    <i class="fas fa-door-open"></i> &nbsp;TYPE OF LEAVE  </small>
+                    &nbsp;
+                    <select id="statusSelect" name="Type" formControlName="Type" > 
+                        <option value="" selected>-Select- </option> 
+                        <option value="Vacation">Vacation </option> 
+                        <option value="Parental Leave">Parental Leave </option> 
+                        <option value="Sick Leave">Sick Leave </option> 
+                        <option value="Others… ">Others… </option> 
+                    </select> 
+   
+                  <BR/> <BR/>
+             
+                    <small class="titles">
+                         FROM : </small> <BR/>
+                    <input type="date" formControlName="FromDate" 
+                           name="FromDate" min="{{ todayStr }}" >
+                    &nbsp;&nbsp;&nbsp;&nbsp; 
+                    <input type="time" formControlName="FromTime" 
+                           name="FromTime" min="08:00:00" max="20:00:00" >
+               
+                    <BR/> <BR/>  
+                    <small class="titles">
+                          TO : </small> <BR/>  
+                    <input type="date" formControlName="ToDate" min="{{ todayStr }}" 
+                           name="ToDate" >
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="time" formControlName="ToTime" min="08:00:00" max="20:00:00"
+                           name="ToTime" >
+              </DIV>
+            <DIV class="vl"> </DIV> 
+            <DIV id="leftPanel">   
+                <small class="titles">
+                    <i class="fas fa-marker"></i> DESCRIPTION</small> <BR/>
+                <textarea name="Description" formControlName="Description" > </textarea> 
+
+                <small class="titles">
+                    <i class="fas fa-link"></i> ATTACHMENTS</small> <BR/> 
+                    <input type="file" multiple /> 
+                <input type="hidden" name="Status" formControlName="Status" value="Received"> 
+                <input type="hidden" name="EmployeeID" formControlName="EmployeeID" value="{{ id }}">
+            </DIV>
+        </DIV>
+        <BR/>
+        <BUTTON type="submit" id="addBtn" style="background-color: gold; 
+            color: black; font-weight: bold; margin-right: 24%; 
+            float: right; width: 33%; padding: 7px 16px;"> 
+            + &nbsp;&nbsp; APPLY LEAVE </BUTTON> <BR/> <BR/>
+        <BUTTON type="submit" id="cancelBtn"> 
+            &nbsp;&nbsp; CANCEL </BUTTON>
+        
+
+    </FORM>
+
+    </BODY>
+  
+  
+  </HTML>
+  
