@@ -20,6 +20,13 @@ namespace Rollaxis.Controllers {
             return Obj.Leaves.ToList();
         }
 
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                this.Obj.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         [HttpGet]
         [Route("AllLeaves")]
         public IQueryable<Leave> GetLeave() {
@@ -68,7 +75,7 @@ namespace Rollaxis.Controllers {
 
         [HttpGet]
         [Route("GetType/{EmpID}/{Type}")]
-        public IHttpActionResult GetVacation(string EmpID, string Type) {
+        public IHttpActionResult GetType(string EmpID, string Type) {
             double time = 0.0f;
             List<Leave> listLeaves = new List<Leave>();
             double timeDiff; 
@@ -94,15 +101,15 @@ namespace Rollaxis.Controllers {
         }
 
         [HttpGet]
-        [Route("GetTypeOthers/{EmpID}")]
-        public IHttpActionResult GetOthers(string EmpID) {
+        [Route("GetTypeByMonth/{EmpID}/{Type}")]
+        public IHttpActionResult GetTypeByMonth(string EmpID, string Type) {
             double time = 0.0f;
             List<Leave> listLeaves = new List<Leave>();
             double timeDiff;
             try {
                 var result = LeaveList().Where(l =>
                     l.EmployeeID.Trim().Equals(EmpID) &&
-                    l.Type == "Others…" && l.Status.Trim() == "Finalised"
+                    l.Type == Type && l.Status.Trim() == "Finalised"
                     && l.FromDate.Year == DateTime.Now.Year
                     && l.FromDate.Month == DateTime.Now.Month);
 
@@ -110,9 +117,15 @@ namespace Rollaxis.Controllers {
                     timeDiff = (20 - Int32.Parse(l.FromTime.Substring(0,
                                     l.FromTime.IndexOf(":")))) +
                                    (Int32.Parse(l.ToTime.Substring(0,
-                                    l.ToTime.IndexOf(":")))) - 8;
-                    time += (l.ToDate - l.FromDate).TotalDays +
-                            Math.Round(timeDiff / 24, 2);
+                                    l.ToTime.IndexOf(":")))) - 8; 
+                    if(l.ToDate.Month == l.FromDate.Month) {
+                        time += (l.ToDate - l.FromDate).TotalDays +
+                                Math.Round(timeDiff / 24, 2);
+                    } else {
+                        time += (DateTime.DaysInMonth(l.FromDate.Year, l.FromDate.Month) - 
+                                l.FromDate.Day) + 
+                                Math.Round(timeDiff / 24, 2);
+                    }
                 }
             } catch (Exception) {
                 throw;
@@ -127,6 +140,7 @@ namespace Rollaxis.Controllers {
                 return BadRequest(ModelState);
             }
             try {
+                data.LeaveID = (Int32.Parse(LeaveList().Last().LeaveID) + 1).ToString("D6");
                 Obj.Leaves.Add(data);
                 Obj.SaveChanges();
             } catch (Exception) {
@@ -159,8 +173,8 @@ namespace Rollaxis.Controllers {
         }
 
         [HttpDelete]
-        [Route("DeleteLeave")]
-        public IHttpActionResult DeleteLeaves(string id) {
+        [Route("DeleteLeave/{id}")]
+        public IHttpActionResult DeleteLeave(string id) {
             Leave d = Obj.Leaves.Find(id);
             if (d == null) {
                 return NotFound();

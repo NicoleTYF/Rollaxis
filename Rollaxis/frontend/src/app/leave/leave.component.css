@@ -7,7 +7,8 @@ body {
   }
 
   tr:nth-child(even) {
-    background-color: lightgoldenrodyellow;
+    /* background-color: lightgoldenrodyellow; */ 
+    background-color: #eee;
   }
 
   table {

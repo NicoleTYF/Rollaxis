@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';  
 import { DatePipe } from '@angular/common' 
 import { Leave } from '../leave'; 
@@ -15,7 +15,9 @@ export class ShowLeaveComponent implements OnInit {
   initial= this.name.substr(0, 2); 
   todayDate: Date = new Date(); 
 
-  id = "703738";
+  id = "222179"; 
+
+  isAuth:boolean = true;
 
   leaves: Leave[] = []; 
   type = "-Select- "; 
@@ -32,13 +34,7 @@ export class ShowLeaveComponent implements OnInit {
   constructor(private httpService: HttpClient, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.httpService.get('https://localhost:44347/api/Leave/GetLeaveByEmpId/' + 
-      this.id).subscribe(  
-      data => {  
-        this.leaves = (data as Leave[]).sort((a, b) => 
-                      new Date(b.FromDate).getTime() - new Date(a.FromDate).getTime()); 
-      }  
-    );  
+    this.refreshList();
   }
 
   onFilter() {
@@ -60,6 +56,26 @@ export class ShowLeaveComponent implements OnInit {
           l.Type.includes(this.typeFil)); 
 
     return this.filteredLeaves;
+  } 
+
+  onDelete(id: string) { 
+    this.httpService.delete('https://localhost:44347/api/Leave/DeleteLeave/' + id).
+    subscribe(
+    (response) => console.log(response),
+    (error) => console.log(error) 
+    )  
+    this.leaves = this.leaves.filter(leave => leave.LeaveID != id); 
+    this.onFilter();
+  }
+
+  refreshList() {
+    this.httpService.get('https://localhost:44347/api/Leave/GetLeaveByEmpId/' + 
+      this.id).subscribe(  
+      data => {  
+        this.leaves = (data as Leave[]).sort((a, b) => 
+                      new Date(b.FromDate).getTime() - new Date(a.FromDate).getTime()); 
+      }  
+    );  
   }
 
   dateDiff(from: Date, to: Date){

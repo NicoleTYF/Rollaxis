@@ -15,6 +15,16 @@ namespace Rollaxis.Models
             get; 
             set;
         }
+
+        public string SecretQuestion {
+            get; 
+            set;
+        }
+
+        public string SecretAns {
+            get;
+            set;
+        }
     }
 
     public class Registration: EmployeeLogin {}

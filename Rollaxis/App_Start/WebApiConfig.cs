@@ -23,7 +23,8 @@ namespace Rollaxis
                 defaults: new { id = RouteParameter.Optional }  
             );  
   
-            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");  
+            
+            EnableCorsAttribute cors = new EnableCorsAttribute("http://localhost:4200", "*", "*");  
             config.EnableCors(cors);
         }
     }

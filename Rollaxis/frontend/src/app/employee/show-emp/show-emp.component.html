@@ -1,27 +1,6 @@
 <HTML ng-app='app-show-emp'>
   
   <BODY> 
-    <NAV class="topnav">
-      <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo_text.png" /> 
-          <button class="navbtn" style="margin-left: 6%;"><span>Dashboard</span></button>
-          <button class="navbtn active" ><span>Employee Details</span></button>
-          <button class="navbtn" ><span>Manage Invoice</span></button>
-          <button class="navbtn" ><span>Manage Leave</span></button>
-        
-        <!-- User Profile dropdown -->
-        <button class="dropbtn" id="userDropbtn">
-          <DIV id="profilePic" [ngStyle]="{'background-color': emp.Color}">
-            <span>{{emp.FirstName.substr(0, 2)}}</span></DIV>
-          &nbsp;&nbsp;<span>{{ emp.FirstName }}&nbsp;{{ emp.LastName }}&nbsp;
-            <i class="fas fa-chevron-down"></i></span>
-         </button>
-         <div class="dropdown-content" id="userDropContent">
-          <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
-          <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
-         </div>
-  
-    </NAV>
-  
   
     <DIV class="main">
       <DIV class="col left">
@@ -57,13 +36,18 @@
           <DIV>
             <i class="fas fa-briefcase"></i> &nbsp;
             <small style="font-weight: 600;">DEPARTMENT : </small> <br/>
-            <span><a href="#">{{ emp.DepartmentID }} <i class="fas fa-external-link-alt"></i></a></span>
+            <span><a routerLink="['/employee/employeeDetails/', dep.DepartmentID]">
+              {{ dep.DepartmentName }} 
+              <i class="fas fa-external-link-alt"></i></a></span>
           </DIV>
           <div class="vl"></div>
           <DIV>
             <i class="fas fa-user-tie"></i> &nbsp;
-            <small style="font-weight: 600;">MANAGEED BY : </small> <br/>
-            <span><a href="#">EID: {{emp.ManagerID}} <i class="fas fa-external-link-alt"></i></a></span>
+            <small style="font-weight: 600;">MANAGED BY : </small> <br/>
+            <span title="{{manager.FirstName + ' ' + manager.LastName}}">
+              <a [routerLink]="['/employee/employeeDetails', emp.ManagerID.trim()]">
+              {{manager.FirstName + " " + manager.LastName}} 
+              <i class="fas fa-external-link-alt"></i></a></span>
           </DIV>
           <div class="vl"></div>
           <DIV>
@@ -106,38 +90,61 @@
               <small id="salaryText">
                 <i class="far fa-plus-square"></i> 
                 &nbsp;SALARY  
-              </small> <BR/>
-              <span>&nbsp;&nbsp;&emsp;{{emp.Salary | currency }}</span>
+              </small> <BR/> 
+              <span>&nbsp;&nbsp;&nbsp;&emsp;{{emp.HrsWorked * salaryClass.Rate | 
+                currency }}</span>
+              <small style="float: right">Class: {{ emp.SalaryClassID }}</small> 
             </DIV>
             <DIV>
-                <small id="classText">
-                  <i class="far fa-plus-square"></i> 
-                  &nbsp;CLASS: </small> 
-                <small>&emsp;{{ emp.SalaryClassID }}</small> 
-                <DIV> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <small class="classText">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;ALLOWANCE REAMAINING: </small> 
+                <DIV *ngIf="salaryClass.MedicalAllowance != 0"> 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   ↳ <i class="fa fa-heartbeat"></i> &nbsp;
                   <!-- <small>Health: </small>  -->
-                  <span>&emsp;{{ healthAllowance | currency }}</span>
+                  <span>&emsp;{{ salaryClass.MedicalAllowance | currency }}</span>
                 </DIV>
-                <DIV>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <DIV *ngIf="salaryClass.TravelAllowance != 0">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   ↳ <i class="fas fa-bus-alt"></i> &nbsp;
                   <!-- <small>Travel: </small>  -->
-                  <span>&emsp;{{ travelAllowance | currency }}</span>
+                  <span>&emsp;{{ salaryClass.TravelAllowance | currency }}</span>
                 </DIV>
-                <DIV>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <DIV *ngIf="salaryClass.ClothingAllowance != 0">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   ↳ <i class="fas fa-tshirt"></i> &nbsp;
                   <!-- <small>Clothing: </small>  -->
-                  <span>&emsp;{{ clothAllowance | currency }}</span>
+                  <span>&emsp;{{ salaryClass.ClothingAllowance | currency }}</span>
                 </DIV>
-                <DIV>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <DIV *ngIf="salaryClass.MealAllowance != 0">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   ↳ <i class="fas fa-utensils"></i> &nbsp;
                   <!-- <small>Meal: </small>  -->
-                  <span>&emsp;{{ mealAllowance | currency }}</span>
+                  <span>&emsp;{{ salaryClass.MealAllowance | currency }}</span>
+                </DIV>
+                <DIV *ngIf="salaryClass.EducationAllowance != 0">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  ↳ <i class="fas fa-book"></i> &nbsp;
+                  <!-- <small>Education: </small>  -->
+                  <span>&emsp;{{ salaryClass.EducationAllowance | currency }}</span> 
+                  <BR/> 
                 </DIV>
                 <small id="bonusText"><i class="far fa-plus-square"></i> 
-                  &nbsp;BONUS: </small> <br/>
+                  &nbsp;BONUS: </small> <BR/> 
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span>{{ bonus | currency }}</span> 
+                <span>{{ ((emp.HrsWorked * salaryClass.Rate) * salaryClass.Bonus/100) | 
+                    currency }}</span> 
+                <small style="float: right">{{ salaryClass.Bonus }}% of salary</small> 
+                
+                <BR/> 
+                <small id="salaryText">
+                  <i class="far fa-plus-square"></i> 
+                  &nbsp;SUPERFUND  
+                </small> <BR/> 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>{{ (emp.HrsWorked * salaryClass.Rate * 0.095) | currency }}</span>
+                <small style="float: right">9.5% of salary</small> 
             </DIV> 
           </DIV>
           <div class="vl"></div>
@@ -165,6 +172,7 @@
                 <small>&nbsp;Others: &nbsp;&nbsp;&emsp;&nbsp;&nbsp;&nbsp;&emsp;</small> 
                 <span>{{ others }}&nbsp;<small>days</small></span>
               </DIV>
+              <P> </P>
             </DIV>
 
             <DIV id="taxPanel">
@@ -174,26 +182,23 @@
                 <small>&nbsp;Tax: </small> 
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   &nbsp;&nbsp;&nbsp;
-                  {{ (emp.Salary * (emp.TaxRate/100)) | currency }}</span>
-              </DIV>
-              <DIV>
-                ↳ <i class="far fa-file-alt"></i>
-                <small>&nbsp;Superfund: &nbsp;&nbsp;&nbsp;&nbsp;</small> 
-                <span>{{ emp.SuperFund | currency }}</span>
+                  {{ (emp.HrsWorked * salaryClass.Rate * (emp.TaxRate/100)) | currency }}</span>
               </DIV>
             </DIV>
           </DIV>
         </DIV>
           <HR/>
           <DIV id="bottomPanel">
-            <span>&nbsp;&emsp;&nbsp;<u>{{ (emp.Salary - (emp.Salary * (emp.TaxRate/100))
-              - emp.SuperFund).toFixed(2) }}</u>
+            <span>&nbsp;&emsp;&nbsp;<u>{{ 
+              (emp.HrsWorked * salaryClass.Rate * (1 - (emp.TaxRate/100)) - 
+              ((vacation + parentalLeave + sickLeave + others) * 12 * 
+              salaryClass.Rate)).toFixed(2) }}</u>
               <small style="font-weight: 600;"> NET PAY: &nbsp;&emsp;&nbsp; </small>
               </span><i class="fas fa-dollar-sign"></i> &nbsp;
             
           </DIV>
          </DIV>
-         <BR/>
+         <P> </P>
         <small style="float: right">
           <i>Last Modified : {{ emp.ModifiedDate | date }}</i></small>
       </DIV>

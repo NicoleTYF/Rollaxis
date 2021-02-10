@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';  
 import { DatePipe } from '@angular/common' 
 import { Leave } from '../leave'; 
@@ -20,6 +20,8 @@ export class AddLeaveComponent implements OnInit {
                         this.todayDate.getDay(); 
 
   id = "703738"; 
+  
+  isAuth:boolean = true;
 
   leaves: Leave[] = []; 
   leaveForm: FormGroup;
@@ -44,22 +46,21 @@ export class AddLeaveComponent implements OnInit {
       ToDate: [new Date()], 
       ToTime: [new Date().getTime()], 
       Status: ["Pending"], 
-      LeaveID: ["00089343"]
+      LeaveID: ["0"]
     })
   }
 
   ngOnInit(): void {
     this.httpService.get('https://localhost:44347/api/Leave/AllLeaves').subscribe(  
       data => {  
-        this.leaves = (data as Leave[]).sort((a, b) => 
-                      new Date(b.FromDate).getTime() - new Date(a.FromDate).getTime()); 
+        this.leaves = data as Leave[]; 
       }  
     );  
   }
 
   onSubmit() { 
      let l: Leave = new Leave(); 
-     l.LeaveID = (this.leaves.length + 2).toString().padStart(6, "0"); 
+     l.LeaveID = "-1"; 
      l.EmployeeID = this.leaveForm.get("EmployeeID")!.value; 
      l.Type = this.leaveForm.get('Type')!.value; 
      l.Status = this.leaveForm.get('Status')!.value; 
@@ -75,7 +76,7 @@ export class AddLeaveComponent implements OnInit {
     subscribe(
     (response) => console.log(response),
     (error) => console.log(error)
-  )
+    )  
   }
 
 }

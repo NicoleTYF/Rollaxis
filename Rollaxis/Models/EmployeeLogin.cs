@@ -16,10 +16,12 @@ namespace Rollaxis.Models
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public int EmployeeID { get; set; }
-        public Nullable<int> TotalCnt { get; set; }
-        public Nullable<int> LoginCnt { get; set; }
-        public Nullable<int> IsApproved { get; set; }
-        public Nullable<int> Status { get; set; }
+        public string EmployeeID { get; set; }
+        public Nullable<System.DateTime> LastLoginDate { get; set; }
+        public string SecretQuestion1 { get; set; }
+        public string SecretQuestion2 { get; set; }
+        public string SecretAns1 { get; set; }
+        public string SecretAns2 { get; set; }
+        public int Status { get; set; }
     }
 }

@@ -30,11 +30,11 @@ namespace Rollaxis.Models
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<Leave> Leaves { get; set; }
         public virtual DbSet<EmployeeLogin> EmployeeLogins { get; set; }
+        public virtual DbSet<Leave> Leaves { get; set; }
         public virtual DbSet<SalaryClass> SalaryClasses { get; set; }
     
-        public virtual ObjectResult<PROC_EmployeeLogin_Result> PROC_EmployeeLogin(string username, string password)
+        public virtual int PROC_EmployeeLogin(string username, string password)
         {
             var usernameParameter = username != null ?
                 new ObjectParameter("Username", username) :
@@ -44,7 +44,7 @@ namespace Rollaxis.Models
                 new ObjectParameter("Password", password) :
                 new ObjectParameter("Password", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PROC_EmployeeLogin_Result>("PROC_EmployeeLogin", usernameParameter, passwordParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PROC_EmployeeLogin", usernameParameter, passwordParameter);
         }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

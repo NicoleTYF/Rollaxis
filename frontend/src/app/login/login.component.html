@@ -1,0 +1,129 @@
+<HTML data-ng-app='Login'>
+  <STYLE>
+    body {
+      padding-top: 4%;
+      background-color: gray;
+    }
+  
+    h1 {
+      text-align: center;
+    }
+  
+    .topnav {
+      background-color: #404040;
+    } 
+  
+    #logo {
+      width: 13%;
+      margin-top: 0.5%; 
+      margin-left: 3%;
+      padding-bottom: 0;
+    }
+  
+    #LoginForm {
+      width: 205;
+      height: 80%;
+      margin: auto 25%;
+      padding: 60px 80px;
+      box-shadow: 0px 8px 9px 0px rgba(100, 100, 100, 1); 
+      border-radius: 8px;
+      background-color: ghostwhite; 
+    }
+  
+    #LoginForm input[type=text],  
+    #LoginForm input[type=password] {
+      width:  100%;
+      height: 40px;
+      border-radius: 5px;
+    }
+  
+    .strength-meter[_ngcontent-vki-c48] {
+      width: 80% !important;
+    } 
+  
+    .button {
+      color: black;
+      border: none;
+      padding: 14px; 
+      transition: all 0.4s;
+      font-weight: bold;
+      background-color: gold;
+    }
+  
+    .button:hover {
+      background-color: yellow;
+    }
+  
+    .login {
+      width: 100%;
+    }
+  
+    .iconBtn {
+      width: 20px;
+      height: 20px; 
+      margin: 0;
+    }
+  
+    .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    opacity: 0;
+    width: 270px;
+    background-color: rgba(70, 70, 70, 0.9);
+    color: #fff;
+    transition: all 0.2s;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  </STYLE>
+  
+  <HEAD>
+    <META charset='utf-8'>
+    <TITLE>Login</TITLE>
+    <script src="path/to/angular.js"></script>
+    <script src="path/to/angular-sanitize.js"></script>
+  </HEAD>
+  
+  <NAV  class="topnav">
+    <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo_text.png" /> 
+  </NAV>
+  
+  <BODY ng-controller="Login">
+  
+    <DIV class="content" role="main" ng-app="Login">
+      <form name="tabsCtrl.myForm" id="LoginForm">
+        <H1>Welcome to CompanyX Payroll System, Please Login</H1>
+        <LABEL for="username">LOGIN ID </LABEL> 
+        <DIV class="tooltip">  
+          <IMG class="iconBtn tooltip" SRC="./assets/ic_questionMark_normal.png"/>
+          <span class="tooltiptext">The Login ID can be found in your email.</span>
+        </DIV> 
+         <BR/>
+        <INPUT type="text" ng-model="tabsCtrl.user" name="username">
+        <BR><BR/> 
+        <LABEL for="password">PASSWORD</LABEL> <BR/>
+        <INPUT type="password" name="password" ng-model="password" >
+        <BR>
+        <INPUT type="checkbox"/> I have read CompanyX's <a href="#">data collection policy</a>.
+        <BR/><BR/>
+        <BUTTON class="button login">LOGIN</BUTTON>
+      </form>
+    </DIV>
+    <router-outlet> </router-outlet> 
+  </BODY>
+  </HTML>

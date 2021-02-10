@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http; 
 using Rollaxis.Models;
 using System.Web.Http.Cors;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Rollaxis.Controllers {
 
@@ -30,6 +30,13 @@ namespace Rollaxis.Controllers {
             }
         }
 
+        protected override void Dispose(bool disposing) {
+            if (disposing) { 
+                this.Obj.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         [HttpGet] 
         [Route("GetEmployeeById/{id}")] 
         public IHttpActionResult GetEmployeeById(string id) {
@@ -51,6 +58,10 @@ namespace Rollaxis.Controllers {
             if(!ModelState.IsValid) {
                 return BadRequest(ModelState); 
             }
+
+            byte[] salt = new byte[128 / 8]; 
+            // using (var rng = RandomNumberGenerator)
+
             try {
                 Obj.Employees.Add(e); 
                 Obj.SaveChanges(); 

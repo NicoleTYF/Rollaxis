@@ -20,7 +20,14 @@ namespace Rollaxis.Controllers {
             return Obj.SalaryClasses.ToList();
         }
 
-       [HttpGet] 
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                this.Obj.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        [HttpGet] 
        [Route("AllSalaryClass")] 
        public IQueryable <SalaryClass> GetSalaryClass() {
             try {
@@ -33,16 +40,16 @@ namespace Rollaxis.Controllers {
        [HttpGet] 
        [Route("GetSalaryClassById/{SalaryClassID}")]
        public IHttpActionResult GetSalaryClassById(string SalaryClassID) {
-            SalaryClass ObjAdr = new SalaryClass();  
+            SalaryClass ObjSC = new SalaryClass();  
             try {
-                ObjAdr = Obj.SalaryClasses.Find(SalaryClassID); 
-                if(ObjAdr == null) {
+                ObjSC = Obj.SalaryClasses.Find(SalaryClassID); 
+                if(ObjSC == null) {
                     return NotFound();
                 }
             } catch (Exception) {
                 throw;
             } 
-            return Ok(ObjAdr);
+            return Ok(ObjSC);
        }
 
        [HttpPost] 

@@ -109,13 +109,24 @@
         margin-left: 30px;
       }
 
-      #editBtn {
+      .editBtn {
         color: black; 
         float: right; 
+        border: none;
         font-size: 16px; 
         font-weight: 500; 
         padding: 6.4px 10px; 
         background-color: rgb(238, 238, 238);             
+      } 
+
+      .withdrawBtn {
+        color: white;  
+        float: right;  
+        border: none;
+        font-size: 16px; 
+        font-weight: 500; 
+        padding: 6.4px 10px; 
+        background-color: coral;  
       }
 
   
@@ -126,24 +137,6 @@
     </HEAD>
   
     <BODY> 
-      <NAV class="topnav">
-        <IMG ID="logo" ALT="Rollaxis logo" SRC="../assets/logo_text.png" /> 
-            <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
-            <button class="navbtn" ><span>My Details</span></button>
-            <button class="navbtn" ><span>Print Invoice</span></button>
-            <button class="navbtn active" ><span>Apply Leave</span></button>
-          
-          <!-- User Profile dropdown -->
-          <button class="dropbtn" id="userDropbtn">
-            <DIV id="profilePic" [ngStyle]="{'background-color': color}">
-              <span>{{initial}}</span></DIV>
-            &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
-           </button>
-           <div class="dropdown-content" id="userDropContent">
-            <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
-            <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
-           </div>
-      </NAV>
   
       <DIV class="main" ng-controller="leaveCtrl" > 
         <H2 style="margin-left: 27.7%;">
@@ -164,6 +157,7 @@
           <select id="statusSelect" name="type" [(ngModel)]="type" > 
             <option value="-Select- " selected>-Select- </option> 
             <option value="Vacation">Vacation </option> 
+            <option value="Parental Leave">Parental Leave </option> 
             <option value="Sick Leave">Sick Leave </option> 
             <option value="Others… ">Others… </option> 
           </select> 
@@ -185,18 +179,27 @@
               <TR *ngFor="let l of onFilter()" >
                 <TD>{{ l.LeaveID }}</TD>
                 <TD>  
-                  <DIV style="display: flex; justify-content:space-between;">
-                        <h2>{{ l.Type }} </h2>
+                  <DIV style="display: flex; justify-content:space-between;"> 
+                        <DIV style="display: flex;">
+                          <h2>{{ l.Type }} </h2> &nbsp;&nbsp;&nbsp;
+                          <span style="color: rgb(107, 107, 107); 
+                             font-size: 16px; font-weight: 500; padding: 8px 10px; float: left;">
+                             <i class="fas fa-door-open"></i> &nbsp;
+                             {{ dateDiff( l.FromDate, l.ToDate ) }}.{{ timeDiff( l.FromTime, l.ToTime ) }}
+                             <small>days</small>
+                          </span> 
+                        </DIV>
                         <DIV >
-                          <BUTTON *ngIf=" l.Status.includes('Pending ')"  id="editBtn" > 
+                          <BUTTON *ngIf=" l.Status.includes('Pending ')"  class="editBtn" > 
                             <i class="far fa-edit"></i> &nbsp;
                                Edit 
                           </BUTTON> 
-                          <span style="background-color: palegoldenrod; color: black; 
-                          font-size: 16px; font-weight: 500; padding: 8px 10px; float: right;">
-                           <i class="fas fa-door-open"></i> &nbsp;
-                          {{ dateDiff( l.FromDate, l.ToDate ) }}.{{ timeDiff( l.FromTime, l.ToTime ) }}
-                          <small>days</small></span>
+                          <BUTTON *ngIf=" l.Status.includes('Pending ') || 
+                                          l.Status.includes('Active ')"  
+                            class="withdrawBtn" (click)="onDelete( l.LeaveID )" > 
+                            <i class="far fa-trash-alt"></i> &nbsp;
+                               Withdraw  
+                          </BUTTON> 
                         </DIV>
                   </DIV> 
 
@@ -221,12 +224,12 @@
                 <BR/> <span>{{ l.Description }} </span>
               </TD>
                 <TD *ngIf="l.Status.trim() == 'Finalised'" 
-                style="background-color: rgb(197, 197, 189); 
-                  color:rgb(51, 51, 51); 
+                style="background-color: #8ad11e; 
+                  color: rgb(10, 88, 2); 
                   text-align: center; vertical-align: middle;">
                   {{ l.Status }}</TD> 
                 <TD *ngIf="l.Status.trim() == 'Active'" 
-                  style="background-color:#8ad11e; color:white; 
+                  style="background-color: rgb(245, 222, 16); color: rgb(182, 170, 10); 
                     text-align: center; vertical-align: middle;">
                     {{ l.Status }}</TD> 
 
@@ -236,7 +239,7 @@
                   {{ l.Status }}</TD>
 
                 <TD *ngIf="l.Status.trim() == 'Pending'" 
-                  style="background-color:rgb(245, 222, 16); color:black; 
+                  style="background-color:rgb(197, 197, 189); color:black; 
                     text-align: center; vertical-align: middle;">
                     {{ l.Status }}</TD>
               </TR> 

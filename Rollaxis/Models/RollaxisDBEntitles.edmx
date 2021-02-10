@@ -17,17 +17,6 @@
           <Property Name="PostalCode" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'RollaxisDB.dbo.Address$' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="Address$">
-          <Property Name="AddressID" Type="float" />
-          <Property Name="AddressLine1" Type="nvarchar" MaxLength="255" />
-          <Property Name="AddressLine2" Type="nvarchar" MaxLength="255" />
-          <Property Name="City" Type="nvarchar" MaxLength="255" />
-          <Property Name="State" Type="nvarchar" MaxLength="255" />
-          <Property Name="PostalCode" Type="float" />
-          <Property Name="ModifiedDate" Type="datetime" />
-        </EntityType>-->
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentID" />
@@ -55,44 +44,44 @@ warning 6013: The table/view 'RollaxisDB.dbo.Address$' does not have a primary k
           <Property Name="ModifiedDate" Type="date" Nullable="false" />
           <Property Name="BirthDate" Type="int" />
           <Property Name="BirthMonth" Type="nchar" MaxLength="10" />
-          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" />
-          <Property Name="Password" Type="nchar" MaxLength="10" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="SalaryClassID" Type="nchar" MaxLength="10" />
-          <Property Name="Salary" Type="float" />
-          <Property Name="TaxRate" Type="int" />
+          <Property Name="Salary" Type="float" Nullable="false" />
+          <Property Name="TaxRate" Type="int" Nullable="false" />
           <Property Name="SuperFund" Type="float" />
           <Property Name="IsApproved" Type="int" />
           <Property Name="NetPay" Type="float" />
           <Property Name="HrsWorked" Type="float" />
           <Property Name="Color" Type="nchar" MaxLength="10" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'RollaxisDB.dbo.EmployeeLogin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLogin">
           <Key>
-            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="Username" />
           </Key>
-          <Property Name="Username" Type="nvarchar" MaxLength="50" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" />
-          <Property Name="EmployeeID" Type="int" Nullable="false" />
-          <Property Name="TotalCnt" Type="int" />
-          <Property Name="LoginCnt" Type="int" />
-          <Property Name="IsApproved" Type="int" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="125" Nullable="false" />
+          <Property Name="EmployeeID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="SecretQuestion1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecretQuestion2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecretAns1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SecretAns2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Leave">
           <Key>
             <PropertyRef Name="LeaveID" />
           </Key>
-          <Property Name="LeaveID" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="EmployeeID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="LeaveID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeID" Type="nchar" MaxLength="10" />
           <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" Nullable="false" />
-          <Property Name="FromTime" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="ToTime" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Status" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="FromTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ToTime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Status" Type="char" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -125,7 +114,7 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="PROC_EmployeeLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="varchar" Mode="In" />
-          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -161,18 +150,8 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeLogin" EntityType="Self.EmployeeLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EmployeeLogin" EntityType="Self.EmployeeLogin" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [EmployeeLogin].[Username] AS [Username], 
-    [EmployeeLogin].[Password] AS [Password], 
-    [EmployeeLogin].[EmployeeID] AS [EmployeeID], 
-    [EmployeeLogin].[TotalCnt] AS [TotalCnt], 
-    [EmployeeLogin].[LoginCnt] AS [LoginCnt], 
-    [EmployeeLogin].[IsApproved] AS [IsApproved], 
-    [EmployeeLogin].[Status] AS [Status]
-    FROM [dbo].[EmployeeLogin] AS [EmployeeLogin]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="SalaryClass" EntityType="Self.SalaryClass" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [SalaryClass].[SalaryClassID] AS [SalaryClassID], 
@@ -235,42 +214,44 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="BirthDate" Type="Int32" />
           <Property Name="BirthMonth" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="PasswordSalt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SalaryClassID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Salary" Type="Double" />
-          <Property Name="TaxRate" Type="Int32" />
+          <Property Name="Salary" Type="Double" Nullable="false" />
+          <Property Name="TaxRate" Type="Int32" Nullable="false" />
           <Property Name="SuperFund" Type="Double" />
           <Property Name="IsApproved" Type="Int32" />
           <Property Name="NetPay" Type="Double" />
           <Property Name="HrsWorked" Type="Double" />
           <Property Name="Color" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
+        <EntityType Name="EmployeeLogin">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="125" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <Property Name="SecretQuestion1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SecretQuestion2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SecretAns1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SecretAns2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Leave">
           <Key>
             <PropertyRef Name="LeaveID" />
           </Key>
-          <Property Name="LeaveID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="EmployeeID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="LeaveID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FromTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="ToTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Status" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="EmployeeLogin">
-          <Key>
-            <PropertyRef Name="EmployeeID" />
-          </Key>
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
-          <Property Name="TotalCnt" Type="Int32" />
-          <Property Name="LoginCnt" Type="Int32" />
-          <Property Name="IsApproved" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="FromTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ToTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="SalaryClass">
           <Key>
@@ -302,14 +283,14 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
           <EntitySet Name="Addresses" EntityType="Self.Address" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="Leaves" EntityType="Self.Leave" />
           <EntitySet Name="EmployeeLogins" EntityType="Self.EmployeeLogin" />
+          <EntitySet Name="Leaves" EntityType="Self.Leave" />
           <EntitySet Name="SalaryClasses" EntityType="Self.SalaryClass" />
           <AssociationSet Name="FK_Leave_Leave" Association="Self.FK_Leave_Leave">
             <End Role="Leave" EntitySet="Leaves" />
             <End Role="Leave1" EntitySet="Leaves" />
           </AssociationSet>
-          <FunctionImport Name="PROC_EmployeeLogin" ReturnType="Collection(RollaxisDBModel.PROC_EmployeeLogin_Result)">
+          <FunctionImport Name="PROC_EmployeeLogin">
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
           </FunctionImport>
@@ -344,13 +325,6 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <ComplexType Name="PROC_EmployeeLogin_Result">
-          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="Status" Nullable="false" />
-          <Property Type="Int32" Name="IsApproved" Nullable="false" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -410,6 +384,21 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLogins">
+            <EntityTypeMapping TypeName="RollaxisDBModel.EmployeeLogin">
+              <MappingFragment StoreEntitySet="EmployeeLogin">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="SecretQuestion1" ColumnName="SecretQuestion1" />
+                <ScalarProperty Name="SecretQuestion2" ColumnName="SecretQuestion2" />
+                <ScalarProperty Name="SecretAns1" ColumnName="SecretAns1" />
+                <ScalarProperty Name="SecretAns2" ColumnName="SecretAns2" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="RollaxisDBModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
@@ -421,19 +410,6 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
                 <ScalarProperty Name="ToTime" ColumnName="ToTime" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLogins">
-            <EntityTypeMapping TypeName="RollaxisDBModel.EmployeeLogin">
-              <MappingFragment StoreEntitySet="EmployeeLogin">
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="TotalCnt" ColumnName="TotalCnt" />
-                <ScalarProperty Name="LoginCnt" ColumnName="LoginCnt" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -453,17 +429,7 @@ warning 6002: The table/view 'RollaxisDB.dbo.SalaryClass' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="PROC_EmployeeLogin" FunctionName="RollaxisDBModel.Store.PROC_EmployeeLogin">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RollaxisDBModel.PROC_EmployeeLogin_Result">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PROC_EmployeeLogin" FunctionName="RollaxisDBModel.Store.PROC_EmployeeLogin" />
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="RollaxisDBModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="RollaxisDBModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="RollaxisDBModel.Store.sp_dropdiagram" />

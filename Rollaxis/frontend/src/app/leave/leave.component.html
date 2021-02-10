@@ -27,7 +27,8 @@
   
       tr td:nth-child(3), tr th:nth-child(3), 
       tr td:nth-child(4), tr th:nth-child(4) {
-        width: 90px;
+        width: 90px; 
+        font-family: 'Arial Unicode MS';
       }
       
       tr td:nth-child(5), 
@@ -121,30 +122,11 @@
     </STYLE>
     
     <HEAD> 
-      <!-- <SCRIPT SRC="../../assets/js/leaveFilter.js"> </SCRIPT> -->
+      <!-- <SCRIPT SRC="../../assets/js/leaveFilter.js"> </SCRIPT> --> 
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"/>
     </HEAD>
   
     <BODY> 
-      <TITLE>Manage Leave</TITLE>
-      <NAV class="topnav">
-        <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo_text.png" /> 
-            <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
-            <button class="navbtn" ><span>Search Employee</span></button>
-            <button class="navbtn" ><span>Manage Invoice</span></button>
-            <button class="navbtn active" ><span>Manage Leave</span></button>
-          
-          <!-- User Profile dropdown -->
-          <button class="dropbtn" id="userDropbtn">
-            <DIV id="profilePic" [ngStyle]="{'background-color': color}">
-              <span>{{initial}}</span></DIV>
-            &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
-           </button>
-           <div class="dropdown-content" id="userDropContent">
-            <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
-            <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
-           </div>
-      </NAV>
-  
       <DIV class="main" ng-controller="leaveCtrl" > 
         <H2 style="margin-left: 290px;">
             <i class="fas fa-door-open"></i>&nbsp;&nbsp;&nbsp; Manage Leave</H2>
@@ -166,19 +148,21 @@
           
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <small>Type: </small> 
-          <select id="statusSelect" name="type" [(ngModel)]="type" > 
+          <select id="statusSelect" name="type" [(ngModel)]="type" 
+              style="font-family: 'Arial Unicode MS';" > 
             <option value="-Select- " selected>-Select- </option> 
-            <option value="Vacation">Vacation </option> 
-            <option value="Sick Leave">Sick Leave </option> 
-            <option value="Others… ">Others… </option> 
+            <option value="Vacation">🌴 Vacation </option> 
+            <option value="Parental Leave">&nbsp;🍼&nbsp; Parental Leave </option>
+            <option value="Sick Leave"> 🤒 Sick Leave </option> 
+            <option value="Others… ">💬 Others… </option> 
           </select>
 
           <DIV style="float: right"> 
-            <input type="date" id="fromInput" value="{{ lastMonthStr }}" 
+            <input type="date" id="fromInput" value="{{ lastMonthStr | date }}" 
                   [(ngModel)]="fromDate" name="from"> 
             
             <small> to </small>
-            <input type="date" id="toInput" value="{{ dateStr }}" 
+            <input type="date" id="toInput" value="{{ dateStr | date }}" 
                   [(ngModel)]="todayDate" name="to">
           </DIV> 
         </DIV>
@@ -187,7 +171,7 @@
           <TABLE> 
             <THEAD>
               <TH>ID</TH>
-              <TH>EMPLOYEE</TH>
+              <TH>APPLICANT</TH>
               <TH>FROM</TH>
               <TH>TO</TH>
               <TH>TYPE</TH> 
@@ -196,17 +180,29 @@
             <TBODY> 
               <TR *ngFor="let l of onFilter()" >
                 <TD>{{ l.LeaveID }}</TD>
-                <TD>{{ l.EmployeeID }}</TD>
+                <TD style="display: flex; justify-content: flex-start;">
+                  &emsp;&nbsp;&emsp;&nbsp;
+                  <DIV style="border-radius: 50%; width: 20px; color: white; 
+                           font-size: 9px; text-align: center;" 
+                      [ngStyle]="{'background-color': l.Color }">
+                  <span>{{ (l.FirstName).substr(0, 2) }} </span>
+                </DIV> &nbsp;&nbsp;&emsp;&nbsp;
+                  {{ l.FirstName }} {{ l.LastName }}</TD>
                 <TD>{{ l.FromDate | date }}</TD>
                 <TD>{{ l.ToDate | date }}</TD> 
-                <TD style="width: 13%;">{{ l.Type }}</TD>
+                <TD style="width: 13%; text-align: center; font-size: 20px;">
+                  <span *ngIf="l.Type == 'Parental Leave'">🍼</span> 
+                  <span *ngIf="l.Type == 'Sick Leave'">🤒</span> 
+                  <span *ngIf="l.Type == 'Vacation'">🌴</span> 
+                  <span *ngIf="l.Type == 'Others…'">💬</span>  
+                </TD>
                 <TD *ngIf="l.Status.trim() == 'Finalised'" 
-                style="background-color: rgb(197, 197, 189); 
+                style="background-color: #8ad11e; 
                   color:rgb(51, 51, 51); 
                   text-align: center; vertical-align: middle;">
                   {{ l.Status }}</TD> 
                 <TD *ngIf="l.Status.trim() == 'Active'" 
-                  style="background-color:#8ad11e; color:white; 
+                  style="background-color:rgb(245, 222, 16); color:rgb(61, 60, 2); 
                     text-align: center; vertical-align: middle;">
                     {{ l.Status }}</TD> 
 
@@ -216,7 +212,7 @@
                   {{ l.Status }}</TD>
 
                 <TD *ngIf="l.Status.trim() == 'Pending'" 
-                  style="background-color:rgb(245, 222, 16); color:black; 
+                  style="background-color:rgb(197, 197, 189); color:black; 
                     text-align: center; vertical-align: middle;">
                     {{ l.Status }}</TD>
               </TR> 

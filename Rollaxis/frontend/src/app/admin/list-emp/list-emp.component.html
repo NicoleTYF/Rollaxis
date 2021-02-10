@@ -18,7 +18,8 @@
     }
 
     th {
-       border-bottom: 2px gold solid;
+      text-align: left;
+      border-bottom: 2px gold solid;
     }
 
     tr td:nth-child(1), tr th:nth-child(1) {
@@ -26,7 +27,7 @@
     }
 
     tr td:nth-child(3), tr th:nth-child(3) {
-      width: 60px;
+      width: 90px;
     }
     
     tr td:nth-child(4), 
@@ -119,33 +120,13 @@
       height: 100px;
     }
 
-    #deptSelect option:nth-child(even) {
+    /* #deptSelect option:nth-child(even) {
       background-color: #eee;
-    }
+    } */
 
   </STYLE>
 
   <BODY> 
-    <TITLE>Search Employee</TITLE>
-    <NAV class="topnav">
-      <IMG ID="logo" ALT="Rollaxis logo" SRC="./assets/logo.png" /> 
-          <button class="navbtn" style="margin-left: 6%;"><span>Dashboard</span></button>
-          <button class="navbtn active" ><span>Search Employee</span></button>
-          <button class="navbtn" ><span>Manage Invoice</span></button>
-          <button class="navbtn" ><span>Manage Leave</span></button>
-        
-        <!-- User Profile dropdown -->
-        <button class="dropbtn" id="userDropbtn">
-          <DIV id="profilePic" [ngStyle]="{'background-color': color}">
-            <span>{{initial}}</span></DIV>
-          &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
-         </button>
-         <div class="dropdown-content" id="userDropContent">
-          <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
-          <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
-         </div>
-    </NAV>
-
     <DIV class="main"> 
       <DIV class="left col">
         <H4>Search Criteria</H4>
@@ -186,17 +167,36 @@
             <TH>ID</TH>
             <TH>NAME</TH>
             <TH>DEPT</TH>
-            <TH>NET PAY</TH>
-            <TH>STATUS</TH>
+            <TH>NET PAY</TH> 
           </THEAD>
           <TBODY> 
             <TR *ngFor="let emp of emps" 
-                title="Last modified {{emp.ModifiedDate}}">
-              <TD>{{emp.EmployeeID}}</TD>
-              <TD>{{emp.FirstName}}&nbsp;{{emp.LastName}}</TD>
-              <TD>{{emp.DepartmentID}}</TD>
-              <TD>{{emp.NetPay | currency }}</TD>
-              <TD>{{emp.IsApproved}}</TD>
+                title="Last modified {{emp.ModifiedDate | date }}">
+              <TD><small>{{emp.EmployeeID}}</small></TD>
+              <TD style="display: flex; justify-content: flex-start;"
+                [routerLink]="['/employee/employeeDetails', emp.EmployeeID.trim()]">
+                &emsp;&nbsp;&emsp;&nbsp;
+                <DIV style="border-radius: 50%; width: 20px; color: white; 
+                           font-size: 9px; text-align: center;" 
+                      [ngStyle]="{'background-color': emp.Color}">
+                  <span>{{ (emp.FirstName).substr(0, 2) }} </span>
+                </DIV> &nbsp;&nbsp;&emsp;&nbsp;
+                    {{emp.FirstName}}&nbsp;{{emp.LastName}}
+                  </TD>
+              <TD>
+                <i class="fas fa-bullhorn" *ngIf="(emp.DepartmentID).includes('MKT')"></i> 
+                <i class="fas fa-cog" *ngIf="(emp.DepartmentID).includes('OPN')" 
+                    style="margin-left: 0px;"></i> 
+                <i class="fas fa-dollar-sign" *ngIf="(emp.DepartmentID).includes('FIN')" 
+                    style="margin-left: 2px;"></i> 
+                <i class="fas fa-file-invoice-dollar" *ngIf="(emp.DepartmentID).includes('ACT')" 
+                    style="margin-left: 4px;"></i> 
+                <i class="fas fa-laptop-code" *ngIf="(emp.DepartmentID).includes('IT')"></i> 
+                <i class="fas fa-chart-line" *ngIf="(emp.DepartmentID).includes('SAL')"></i> 
+                <i class="fas fa-user" *ngIf="(emp.DepartmentID).includes('HR')" 
+                    style="margin-left: 2px;"></i>  
+                &nbsp;&nbsp;<small>{{ emp.DepartmentID }}</small></TD>
+              <TD><small>{{emp.NetPay | currency }}</small></TD>
             </TR> 
           </TBODY>
         </TABLE>

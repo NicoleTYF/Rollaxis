@@ -6,9 +6,41 @@
 
   </STYLE>
 
+<NAV class="topnav">
+  <IMG ID="logo" ALT="Rollaxis logo" SRC="../assets/logo_text.png" /> 
+    <DIV id="navBtnGrp" *ngIf="isAuth == true && isAdmin == false"> <!--  -->
+      <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
+      <!-- EMPLOYEE PAGES -->
+      <a routerLink="/employee/employeeDetails/222179" class="navbtn" >My Details</a>
+      <span class="navbtn">Print Invoice</span>
+      <a class="navbtn" routerLink="/leave/view" >Apply Leave</a>
+    </DIV> 
+
+    <!-- ADMIN PAGES -->
+    <DIV id="navBtnGrp" *ngIf="isAuth == true || isAdmin == true"> 
+      <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
+      <a routerLink="/employee/searchEmployee" class="navbtn">Search Employee</a> 
+      <button class="navbtn">
+        <span>Manage Invoice</span></button>
+      <a routerLink="/leave/manage" class="navbtn">Manage Leave</a> 
+    </DIV> 
+   
+    
+    <!-- User Profile dropdown -->
+    <button class="dropbtn" id="userDropbtn" *ngIf="isAuth == true" > <!--  -->
+      <DIV id="profilePic" [ngStyle]="{'background-color': color}">
+        <span>{{initial}}</span></DIV>
+      &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
+     </button>
+     <div class="dropdown-content" id="userDropContent">
+      <a routerLink="/employeeDetails"><i class="far fa-user"></i> &emsp;My Profile</a> 
+      <a routerLink="/login"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
+     </div>
+</NAV>
+
 <BODY> 
-  
-  <app-add-leave> </app-add-leave>
+
+  <router-outlet></router-outlet>
 
 </BODY>
 

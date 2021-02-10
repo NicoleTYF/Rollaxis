@@ -20,7 +20,14 @@ namespace Rollaxis.Controllers {
             return Obj.Addresses.ToList();
         }
 
-       [HttpGet] 
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                this.Obj.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        [HttpGet] 
        [Route("AllAddress")] 
        public IQueryable <Address> GetAddress() {
             try {

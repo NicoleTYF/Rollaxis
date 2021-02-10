@@ -14,6 +14,9 @@ export class RegisterComponent implements OnInit {
     UserForm: any;    
     message = ""; 
     passwordStrength = 2;   
+
+    isAuth:boolean = false;
+
   constructor(private formbulider: FormBuilder,private loginService:LoginService) { }    
 
   ngOnInit() {    

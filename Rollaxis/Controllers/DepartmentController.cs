@@ -21,7 +21,14 @@ namespace Rollaxis.Controllers {
             return Obj.Departments.ToList();
         }
 
-       [HttpGet] 
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                this.Obj.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        [HttpGet] 
        [Route("AllDepartments")] 
        public IQueryable <Department> GetDepartment() {
             try {

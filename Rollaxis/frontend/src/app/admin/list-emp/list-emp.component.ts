@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';  
+import { HttpClientModule, HttpClient } from '@angular/common/http'; 
+import { Employee, Department } from '../../employee/service/employee'; 
 
 @Component({
   selector: 'app-list-emp',
@@ -14,15 +15,21 @@ export class ListEmpComponent implements OnInit {
   color="cadetblue" 
   initial= this.name.substr(0, 2);
 
+  isAuth:boolean = true; 
+  isAdmin:boolean = true;
+
   address: any[] = [];
-  dep: any[] = []; 
+  dep: Department[] = []; 
   emps: any[]=[]; 
-  distinctLocation:string[] = [];
+  empLocation: String = "";
+  distinctLocation: any[] = [];
 
   ngOnInit() {  
     this.httpService.get('https://localhost:44347/api/Department').subscribe(  
       data => {  
-        this.dep = data as any[];  
+        this.dep = data as Department[]; 
+        this.distinctLocation = this.dep.map(d => d.Location).filter(
+          (value, index, self) => self.indexOf(value) === index)
       }  
     );  
 

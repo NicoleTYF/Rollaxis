@@ -18,6 +18,9 @@ export class LeaveComponent implements OnInit {
   lastMonthStr: any;
   todayDate: Date = new Date(); 
 
+  isAuth:boolean = true;
+  isAdmin:boolean = true;
+
   leaves: Leave[] = []; 
   type = "-Select- "; 
   typeFil = "-Select- ";
@@ -28,11 +31,8 @@ export class LeaveComponent implements OnInit {
               this.todayDate.getMonth() - 1, this.todayDate.getDay()); 
   toDate = this.todayDate; 
 
-  filteredLeaves: Leave[] = []; 
-
-  // @ViewChild('desc', {static: true}) desc: ElementRef = new Input(); 
-  // @ViewChild('type', {static: true}) type: ElementRef = new Input();
-  // @ViewChild('status', {static: true}) status: ElementRef = new Input();
+  filteredLeaves: any[] = []; 
+  emps: any[] = [];
 
   limit: number= 25;
 
@@ -48,6 +48,12 @@ export class LeaveComponent implements OnInit {
         this.page = (data as Leave[]).length / this.limit;
       }  
     );  
+
+    this.httpService.get('https://localhost:44347/api/Employee/GetEmployee').subscribe(  
+      data => {  
+        this.emps = data as any[];  
+      }  
+    ); 
     
     this.convertDate();
   }
@@ -61,17 +67,24 @@ export class LeaveComponent implements OnInit {
       this.typeFil = this.type;
     }
 
-    if(this.status.includes("Any ")) {
+    if(this.status.includes("Any")) {
       this.statusFil = " ";
     } else {
       this.statusFil = this.status;
-    }
+    } 
 
-    this.filteredLeaves = this.leaves.filter(l => 
-          l.Status.includes(this.statusFil) && 
-          l.Type.includes(this.typeFil) &&
-          (l.Description.includes(this.desc) || 
-          l.EmployeeID.includes(this.desc))); 
+    const mergeById = (a1: any[], a2: any[]) =>
+    a1.map(itm => ({
+        ...a2.find((item) => (item.EmployeeID === itm.EmployeeID) && item),
+        ...itm
+    }));
+
+    this.filteredLeaves = mergeById(this.leaves, this.emps).filter(l => 
+      l.Status.includes(this.statusFil) && 
+      l.Type.includes(this.typeFil) && 
+      (l.Description.toLowerCase().includes(this.desc) || 
+      l.FirstName.toLowerCase().includes(this.desc) || 
+      l.LastName.toLowerCase().includes(this.desc)));
 
     return this.filteredLeaves;
   }

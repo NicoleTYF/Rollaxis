@@ -59,25 +59,6 @@
     </HEAD>
   
     <BODY> 
-      <NAV class="topnav">
-        <IMG ID="logo" ALT="Rollaxis logo" SRC="../assets/logo_text.png" /> 
-            <button class="navbtn" style="margin-left: 1%;"><span>Dashboard</span></button>
-            <button class="navbtn" ><span>My Details</span></button>
-            <button class="navbtn" ><span>Print Invoice</span></button>
-            <button class="navbtn active" ><span>Apply Leave</span></button>
-          
-          <!-- User Profile dropdown -->
-          <button class="dropbtn" id="userDropbtn">
-            <DIV id="profilePic" [ngStyle]="{'background-color': color}">
-              <span>{{initial}}</span></DIV>
-            &nbsp;&nbsp;<span>{{name}} &nbsp;<i class="fas fa-chevron-down"></i></span>
-           </button>
-           <div class="dropdown-content" id="userDropContent">
-            <a href="/employee"><i class="far fa-user"></i> &emsp;My Profile</a>
-            <a href="Users/logout"><i class="fas fa-sign-out-alt"></i> &emsp;Log out</a>   
-           </div>
-      </NAV>
-  
       <FORM class="main" [formGroup]="leaveForm" (ngSubmit)="onSubmit()" > 
         <H2>
             <i class="fas fa-door-open"></i>&nbsp;&nbsp;&nbsp; Apply Leave</H2>

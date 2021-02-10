@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddEmpComponent implements OnInit {
 
+  isAuth:boolean = true;
+  isAdmin:boolean = true;
+
   constructor() { }
 
   ngOnInit(): void {

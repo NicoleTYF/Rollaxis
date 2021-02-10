@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   color="cadetblue" 
   initial= this.name.substr(0, 2);
 
+  isAuth:boolean = true; 
+
   address: any[] = [];
   dep: any[] = []; 
   emps: any[]=[]; 
